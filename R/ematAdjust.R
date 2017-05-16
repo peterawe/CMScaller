@@ -46,7 +46,7 @@ ematAdjust <- function(emat, center = NULL, scale = NULL, normMethod = NULL,
             emat <- limma::normalizeBetweenArrays(log2(emat+.25),
                                                   method=normMethod,...)
         } else {
-            stopifnot(normMethod %in% subData$methods.edgeR, )
+            stopifnot(normMethod %in% subData$methods.edgeR)
             normFac <- edgeR::calcNormFactors(emat, method=normMethod, ...)
             libSize <- colSums(emat)/max(colSums(emat))
             emat <- log2(t(t(emat) * 1/(normFac * libSize))+.25)
