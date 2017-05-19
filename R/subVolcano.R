@@ -46,13 +46,17 @@ subVolcano <- function(deg, geneID = "rownames",
         xRange <- c(-max(abs(x), na.rm=TRUE), max(abs(x), na.rm=TRUE))*1.2
         yRange <- c(0, max(y, na.rm=TRUE)*1.2)
 
-        if(length(x) >= 2.5e3 | !packageExists("KernSmooth")) {
+        if (length(x) < 3e3) {
             graphics::plot(x, y, xlim=xRange, col="gray", cex=.5,
-                        main=main, xlab=xlab,ylab=ylab)
-
+                           main=main, xlab=xlab, ylab=ylab)
         } else {
-            graphics::smoothScatter(x, y, xlim=xRange, nrpoints=0,
-                        main=main, xlab=xlab,ylab=ylab)
+            if (!packageExists("KernSmooth")) {
+                graphics::plot(x, y, xlim=xRange, col="gray", cex=.5,
+                               main=main, xlab=xlab, ylab=ylab)
+            } else {
+                graphics::smoothScatter(x, y, xlim=xRange, nrpoints=0,
+                                        main=main, xlab=xlab, ylab=ylab)
+            }
         }
         graphics::abline(h=0, lty=1)
 
