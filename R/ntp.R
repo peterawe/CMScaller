@@ -163,7 +163,7 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
     # selectDistance ##########################################################
 
     if (!distance %in%
-        c("cosine", "pearson", "spearman", "kendall", "r_cosine"))
+        c("cosine", "pearson", "spearman", "kendall"))
         stop("invalid distance method")
 
     if (distance == "cosine") {
@@ -172,10 +172,6 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
         simFun <- function(x, y) {
             stats::cor(x, y, method = distance)
         }
-    }
-
-    if (distance == "r_cosine" | (!isTRUE(pReplace) & distance == "cosine")) {
-        simFun <- function(x,y) corCosine(x,y)
     }
 
     # ntpFunction #############################################################
@@ -188,17 +184,10 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
         # apply(replicate... makes permuted matrix
         # apply(simFun... calculates correlation and return max value
 
-        if (distance == "r_cosine") {
-            n.sim.perm.max <- apply(simFun(
-            apply(replicate(nPerm, sample.int(P,S, replace=pReplace)),2,
-                  function(x) emat[x,n])
-            , tmat), 1, max)
-
-        } else {
-            n.sim.perm.max <- apply(simFun(
+        n.sim.perm.max <- apply(simFun(
                 matrix(emat[,n][sample.int(P, S*nPerm, replace=TRUE)],
                        ncol = nPerm), tmat), 1, max)
-        }
+
 
         n.ntp <- which.max(n.sim)
         # estimate p-value
