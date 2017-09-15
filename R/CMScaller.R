@@ -6,6 +6,8 @@
 #' Entrez rownames. Microarray data should be normalized and log2-transformed.
 #' For RNA-seq data, raw counts or RSEM values could be used directly by setting
 #' \code{RNAseq=TRUE}.
+#' @param templates a data frame with two columns; \emph{class} (coerced to
+#' factor) and \emph{probe} (coerced to character).
 #' @param RNAseq a logical, set to TRUE if emat is untransformed, non-normalized
 #' sequencing counts or RSEM values.
 #' @param nPerm an integer, number of permutations for \eqn{p}-value
@@ -35,7 +37,8 @@
 #' res <- CMScaller(crcTCGAsubset, RNAseq=TRUE)
 #' head(res)
 #' hist(res$p.value)
-CMScaller <- function(emat, RNAseq=FALSE, nPerm=1000, seed=42,
+CMScaller <- function(emat, templates=templates.CMS,
+                    RNAseq=FALSE, nPerm=1000, seed=42,
                     pValue=0.1, doPlot=TRUE, verbose=TRUE) {
 
     # checkInput ##############################################################
