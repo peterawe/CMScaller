@@ -18,7 +18,7 @@
 #' dim(crcTCGAsubset)
 "crcTCGAsubset"
 
-#' consensus molecular subtype templates
+#' consensus molecular subtype (CMS) templates
 #' @details Colorectal cancer Consensus Molecular Subtypes (CMS) prediction
 #' templates for \code{\link[CMScaller]{ntp}}. Marker genes were
 #' identified using TCGA RNA-sequencing data. \code{templates$probe} refers to
@@ -29,6 +29,15 @@
 #' head(templates.CMS)
 #' table(templates.CMS$class)
 "templates.CMS"
+
+#' CRC intrinsic subtypes (CRIS) templates
+#' @details Colorectal cancer CRC intrinsic subtypes (CRIS) prediction
+#' templates for \code{\link[CMScaller]{ntp}} retrieved from Supplementary Table
+#' 8 (Isella 2017).
+#' @references Isella C, Brundu F, Bellomo SE, Galimi F, Zanella E, Porporato R, et al. Selective analysis of cancer-cell intrinsic transcriptional traits defines novel clinically relevant subtypes of colorectal cancer. Nat Commun [Internet]. 2017 [cited 2017 Sep 11];8:ncomms15107. Available from: \url{https://www.nature.com/articles/ncomms15107}
+#' @examples
+#' dim(templates.CRIS)
+"templates.CRIS"
 
 #' micro-satellite instability templates
 #' @details micro-satellite instability (MSI) prediction templates for
@@ -98,8 +107,7 @@
 "geneSets.CRC"
 
 #' gene sets relevant to Consensus Molecular Subtypes
-#' @description Geneset is a named list of Entrez ids and is a subset \
-#' code{\link{geneSets.CRC}}.
+#' @description Geneset is a named list of Entrez ids and is a subset of \code{\link{geneSets.CRC}}.
 #' \itemize{
 #' \item{MSI (Watanabe) from \href{http://software.broadinstitute.org/gsea/msigdb}{MutSigDB} C2 (v5.2)}
 #' \item{DNA repair from MutSigDB Hallmark (v5.2)}
