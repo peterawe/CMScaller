@@ -16,10 +16,8 @@
 #' uses same identifiers.
 #' @param pValue a p-value (number) indicating minimum gene set significance
 #' included in plot.
-#' @param topN integer, number of gene sets to include in plot (selected by
-#' lowest \eqn{p}-value.
-#' @param interGeneCor a number, passed to limma::\code{\link[limma]{camera}}
-#' as inter.gene.cor parameter.
+#' @param topN integer, number of gene sets to include in the plot.
+#' (for K>2, lowest p-value for each class is included).
 #' @param allowNegCor logical, passed to limma::\code{\link[limma]{camera}} as
 #' allow.neg.cor parameter.
 #' @param doPlot a logical, indicating whether to return plot (TRUE) or
@@ -205,10 +203,19 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
     rownames(cam.mat) <- names(index)
 
     keepCam <- apply(cam.mat, 1, function(x) max(abs(x))) > -log10(pValue)
-    if (!is.null(topN)) keepCam <- rank(-Biobase::rowMax(abs(cam.mat))) <= topN
+    # get the per-class top hits
+    if (!is.null(topN) & topN < nrow(cam.mat)) {
+        cam.rank <- apply(-cam.mat, 2, rank)
+        idx <- sapply(seq_len(topN), function(i) {
+            unique(as.vector(apply(cam.rank, 2,function(x) which(x< i))))
+            })
+        idx <- idx[[which(sapply(idx, length) >= topN)[1]]]
+        keepCam <- seq_len(nrow(cam.mat)) %in% idx
+    } else {
+        keepCam <- rep(TRUE, nrow(cam.mat))
+    }
 
     # prepareHeatmap ##########################################################
-
     if( sum(keepCam) < 2) {
         message("no significant gene sets identified")
         doPlot <- FALSE
