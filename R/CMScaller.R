@@ -37,7 +37,7 @@
 #' res <- CMScaller(crcTCGAsubset, RNAseq=TRUE)
 #' head(res)
 #' hist(res$p.value)
-CMScaller <- function(emat, templates=templates.CMS,
+CMScaller <- function(emat, templates=CMScaller::templates.CMS,
                     RNAseq=FALSE, nPerm=1000, seed=42,
                     pValue=0.1, doPlot=TRUE, verbose=TRUE) {
 
