@@ -20,6 +20,8 @@
 #' (for K>2, lowest p-value for each class is included).
 #' @param allowNegCor logical, passed to limma::\code{\link[limma]{camera}} as
 #' allow.neg.cor parameter.
+#' @param interGeneCor a number, passed to limma::\code{\link[limma]{camera}}
+#' as inter.gene.cor parameter.
 #' @param doPlot a logical, indicating whether to return plot (TRUE) or
 #' significance values (FALSE) of results.
 #' @param doVoom a logical, indicating whether emat is \emph{untransformed}
