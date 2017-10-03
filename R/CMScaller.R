@@ -76,7 +76,7 @@ CMScaller <- function(emat, templates=templates.CMS,
 
     # ntpPredict ##############################################################
 
-    res <- ntp(emat, templates, seed=seed,
+    res <- ntp(emat, templates, seed=seed, nPerm=nPerm,
                 doPlot=doPlot, verbose=verbose)
     res <- subSetNA(res, pValue=pValue, verbose=verbose)
 
