@@ -27,7 +27,7 @@ subBoxplot = function(y, x, labels = NULL, keepN = TRUE,
             if (is.null(names(y))) labels <- seq_along(y)
                 else labels <- names(y)
     }
-
+    non.empty.level <- table(x[keepN], useNA="ifany")>0
     # modified from http://www.r-bloggers.com/labeled-outliers-in-r-boxplot/
     data <- data.frame(x,y=as.vector(y), labels)[keepN,,drop = FALSE]
     data <- droplevels(data)
@@ -47,23 +47,24 @@ subBoxplot = function(y, x, labels = NULL, keepN = TRUE,
     # pch = "" is a hack to avoid double plotting!
     boxdata <- with(data,graphics::boxplot(data$y ~ data$x,
                                 plot = TRUE, pch=ifelse(isTRUE(points),"",1),
-                                col = classCol, ...))
+                                col = classCol[non.empty.level], ...))
 
     # add data points to boxplot (christmas)
     if (points == TRUE) {
         yList <- split(data$y, data$x)
             sapply(seq_along(yList), function(k) {
-                yc <- sort(cut(yList[[k]], 50))
-                # approximation!!! for pretty stacking
-                yApprox <- sapply(strsplit(gsub("\\(|\\]", "", yc), "\\,"),
+                if(length(na.omit(yList[[k]]>0))) {
+                    yc <- sort(cut(yList[[k]], 50))
+                    # approximation!!! for pretty stacking
+                    yApprox <- sapply(strsplit(gsub("\\(|\\]", "", yc), "\\,"),
                         function(x) mean(as.numeric(x)))
-                xt <- table(yApprox)
-                xx <- sapply(seq_along(xt), function(i) {
-                    x <- seq(0,length = xt[i])/ width
-                    x-mean(x)+k
-            })
-
+                    xt <- table(yApprox)
+                    xx <- sapply(seq_along(xt), function(i) {
+                        x <- seq(0,length = xt[i])/ width
+                        x-mean(x)+k
+                })
         graphics::points(unlist(xx), yApprox, pch=16, col="lightgray")
+        }
         })
 
         # add text to boxplot
