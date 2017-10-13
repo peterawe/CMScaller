@@ -296,7 +296,8 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
 
         textfun(xx, (yy[2]+yy[3])/2, c(pMax,0,pMax), pos=1, cex.text=.75)
         textfun(xx[-2], yy[3], c("dn", "up"), pos=c(2,4), cex.text=.75)
-        textfun(xx[2], line2user(3,1), expression(-log[10](italic(p))), pos=1, cex.text=.75)
+        textfun(xx[2], line2user(3,1), expression(-log[10](italic(p)-value)),
+                pos=1, cex.text=.75)
     }
 
     if (doPlot == TRUE & K == 2) {
