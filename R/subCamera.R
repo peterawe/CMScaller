@@ -125,7 +125,8 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
         }
     }
 
-    # coerce synthatically valid class labels
+    # coerce syntactically valid class labels
+    non.empty.level <- table(class[keepN], useNA="ifany")>0
     class <- class[keepN]
     class <- factor(make.names(class))
     if (!is.null(batch)) batch <- factor(make.names(batch))
@@ -277,7 +278,7 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
         xx <- seq(0, 1, length.out = K+1)
         graphics::rect(xleft=xx[-(K+1)], xright = xx[-1],
             ybottom = yy[1], ytop = yy[2],
-            col=classCol, xpd=TRUE, lwd=.75)
+            col=classCol[non.empty.level], xpd=TRUE, lwd=.75)
 
         # add samples/group
         textfun(xxmid, yy[1], cex.text=.75, pos=3, offset=0,
