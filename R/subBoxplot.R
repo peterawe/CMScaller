@@ -53,7 +53,7 @@ subBoxplot = function(y, x, labels = NULL, keepN = TRUE,
     if (points == TRUE) {
         yList <- split(data$y, data$x)
             sapply(seq_along(yList), function(k) {
-                if(length(na.omit(yList[[k]]>0))) {
+                if(length(stats::na.omit(yList[[k]]>0))) {
                     yc <- sort(cut(yList[[k]], 50))
                     # approximation!!! for pretty stacking
                     yApprox <- sapply(strsplit(gsub("\\(|\\]", "", yc), "\\,"),
