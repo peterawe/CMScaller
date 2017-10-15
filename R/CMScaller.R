@@ -4,7 +4,7 @@
 #' @export
 #' @param emat a numeric expression matrix with sample columns, gene rows and
 #' Entrez rownames. Microarray data should be normalized and log2-transformed.
-#' For RNA-seq data, raw counts or RSEM values could be used directly by setting
+#' For RNA-seq data, counts or RSEM values could be used directly by setting
 #' \code{RNAseq=TRUE}.
 #' @param templates a data frame with two columns; \emph{class} (coerced to
 #' factor) and \emph{probe} (coerced to character).
@@ -13,7 +13,7 @@
 #' @param nPerm an integer, number of permutations for \eqn{p}-value
 #' estimation.
 #' @param seed an integer, for \eqn{p}-value reproducibility.
-#' @param pValue a p-value setting prediction confidence threshold.
+#' @param FDR a false discovery rate setting prediction confidence threshold.
 #' @param verbose a logical, whether console messages are to be displayed.
 #' @param doPlot a logical, whether to produce prediction \code{\link{subHeatmap}}.
 #' @details \code{CMScaller} provides classification based on pre-defined
@@ -38,8 +38,8 @@
 #' head(res)
 #' hist(res$p.value)
 CMScaller <- function(emat, templates=CMScaller::templates.CMS,
-                    RNAseq=FALSE, nPerm=1000, seed=42,
-                    pValue=0.1, doPlot=TRUE, verbose=TRUE) {
+                    RNAseq=FALSE, nPerm=1000, seed=NULL,
+                    FDR=0.1, doPlot=TRUE, verbose=TRUE) {
 
     # checkInput ##############################################################
 
@@ -56,20 +56,20 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
     # quantile normalize RNA-seq data
     if (isTRUE(RNAseq)) {
         if (isTRUE(verbose)) message("performing quantile normalization...")
-        emat <- log2(limma::normalizeBetweenArrays(emat)+.25) # + pseudo-count
+        emat <- limma::normalizeQuantiles(log2(emat+.25)) # + pseudo-count
     }
-
     # sanity check I - whether input data is log2-transformed
     emat.max <- abs(max(emat, na.rm = TRUE))
         if (emat.max > 25) {
             islog <- " <- check normalization and log-transformation"
-            warning(paste0("emat max=", signif(emat.max,1), islog),
+            warning(paste0("emat max=", signif(emat.max,2), islog),
                     call. = FALSE)
         }
 
     # sanity check II - whether rownames appear to be Entrez ids
     mm <- sum(is.na(fromTo(rownames(emat), rough=TRUE)))/nrow(emat)
-    if (mm > 0.15) warning ("check whether rownames(emat) are Entrez ids")
+    if (mm > 0.15)
+        warning ("check that templates$probe and rownames(emat) are compatible")
 
     # scale and center data, basically a wrapper for scale() function
     emat <- ematAdjust(emat)
@@ -78,7 +78,7 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
 
     res <- ntp(emat, templates, seed=seed, nPerm=nPerm,
                 doPlot=doPlot, verbose=verbose)
-    res <- subSetNA(res, pValue=pValue, verbose=verbose)
+    res <- subSetNA(res, FDR=FDR, verbose=verbose)
 
     # output ##################################################################
 
