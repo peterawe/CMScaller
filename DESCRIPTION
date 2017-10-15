@@ -1,7 +1,7 @@
 Package: CMScaller
 Title: CMScaller: stroma-independent consensus molecular subtyping
 Description: Colorectal cancers (CRCs) can be divided into four gene expression-based and biologically distinct consensus molecular subtypes (CMS). This classification is clinically relevant and provides both prognostic stratification of the patients and a potential basis for stratified treatment. CMScaller provides CMS classification of pre-clinical models based on a microarray or RNA-sequencing gene expression data.
-Version: 0.1.0
+Version: 0.2.0
 Date: 2017-05-12
 Authors@R: person("Peter W.", "Eide", 
                     email = "peteid@rr-research.no",
