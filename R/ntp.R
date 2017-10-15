@@ -46,7 +46,8 @@
 #' reproducibility.}
 #' \item{for two random uncorrelated vectors \eqn{x,y} \eqn{N\sim(0,1)}
 #' \eqn{E[d.xy]\approx0.71} when distance is cosine.}
-#' \item{internally, correlations instead of distances are calculated.}}
+#' \item{internally, correlations instead of distances are calculated.}
+#' \item{accepts reuse of features (marker not specific for one class only)}}
 #' @return a data frame with class predictions, template distances,
 #' \eqn{p}-values and false discovery rate adjusted \eqn{p}-values
 #' (\code{\link[stats]{p.adjust}(method = "fdr")}). Rownames equal emat
@@ -283,8 +284,8 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
 
     # returnOutput ############################################################
     if (isTRUE(verbose)) {
-        message("predicted samples/class (p<0.1)")
-        print(table(suppressMessages(subSetNA(res, pValue = 0.1))$prediction,
+        message("predicted samples/class (FDR<0.1)")
+        print(table(suppressMessages(subSetNA(res, FDR=0.1))$prediction,
                     useNA = "always"))
     }
 
