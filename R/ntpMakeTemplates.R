@@ -12,6 +12,8 @@
 #' @param topN integer, (maximum) number of genes per class.
 #' @param verbose logical, whether console messages are to be displayed.
 #' @seealso \code{\link{ntp}}, \code{\link{subDEG}}
+#' @return
+#' A data.frame formated as templates for \code{\link{ntp}}.
 #' @examples
 #' deg <- subDEG(crcTCGAsubset, crcTCGAsubset$CMS, doVoom=TRUE, sortBy="B")
 #' tmp <- ntpMakeTemplates(deg, topN=25)
