@@ -9,7 +9,10 @@
 #' @details Cohen's kappa coefficient measures the agreement between two
 #' categorical vectors. Zero indicates that the agreement is no better than
 #' expected by chance, while a value of one indicates perfect correspondence.
-#' @note Cases with NA in either input vector are currently ignored.
+#' @note Cases with NA in either input vector are ignored.
+#' @return
+#' If adjusted=TRUE, returns the kappa coefficient [-1,1]. If adjusted=FALSE,
+#' returns ordinary accuracy [0,1].
 #' @examples
 #' x <- crcTCGAsubset$CMS
 #' cohensKappa(x, x) # equals 1
