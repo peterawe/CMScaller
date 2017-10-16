@@ -30,7 +30,7 @@
 #' more than two classes) with results.
 #' @references Wu D, Smyth GK. Camera: a competitive gene set test accounting for inter-gene correlation. Nucl. Acids Res. 2012;gks461. \url{http://nar.oxfordjournals.org/content/early/2012/05/24/nar.gks461}
 #' @examples
-#' deg <- subDEG(crcTCGAsubset, crcTCGAsubset$CMS, doVoom=TRUE, sortBy="B")
+#' deg <- subDEG(crcTCGAsubset, crcTCGAsubset$CMS, doVoom=TRUE, sortBy="P")
 #' lapply(deg, head)
 subDEG <- function(emat, class, batch=NULL, keepN=TRUE, doPairwise = FALSE,
                     doVoom = FALSE, normMethod = "quantile",

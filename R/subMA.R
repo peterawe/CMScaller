@@ -15,6 +15,7 @@
 #' @param ... additional arguments passed to \code{\link[graphics]{plot}} or
 #' \code{\link[graphics]{smoothScatter}} or if \pkg{KernSmooth} is available
 #' (currently only main, xlab and ylab used).
+#' @return a MA-plot
 #' @examples
 #' deg <- subDEG(crcTCGAsubset, crcTCGAsubset$CMS, doVoom=TRUE, sortBy="B")
 #' subMA(deg, geneID="symbol", lfc=3)

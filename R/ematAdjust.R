@@ -17,6 +17,9 @@
 #' @param verbose logical, console messages output.
 #' @param ... additional arguments passed to normalizeBetweenArrays and
 #' calcNormFactors depending normalization method selected.
+#' @return
+#' A row-wise centered and scaled matrix. Output matrix will have fewer rows
+#' than input if signalFilt>0.
 #' @details
 #' \code{ematAdjust} performs row-wise scaling and centering by passing matrix
 #' to \code{\link[base]{scale}}. Setting \code{scale} and \code{center} may be
@@ -44,7 +47,7 @@ ematAdjust <- function(emat, center = NULL, scale = NULL, normMethod = NULL,
     if (!is.null(normMethod)) {
         if (normMethod %in% subData$methods.voom) {
             emat <- limma::normalizeBetweenArrays(log2(emat+.25),
-                                                  method=normMethod,...)
+                                                method=normMethod,...)
         } else {
             stopifnot(normMethod %in% subData$methods.edgeR)
             normFac <- edgeR::calcNormFactors(emat, method=normMethod, ...)
@@ -75,7 +78,6 @@ ematAdjust <- function(emat, center = NULL, scale = NULL, normMethod = NULL,
         emat <- t(scale(t(emat), scale=TRUE, center=TRUE))
     }
 
-    #emat <- emat[stats::complete.cases(emat),]
     P.out <- nrow(emat)
     isnorm <- NULL
 

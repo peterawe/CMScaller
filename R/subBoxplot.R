@@ -10,6 +10,7 @@
 #' @param width numeric to adjust point stacking - increase to reduce width.
 #' @param showOutliers logical indicating whether outliers are highlighted.
 #' @param ... additional arguments to be passed to \code{graphics::boxplot}.
+#' @return a boxplot
 #' @note For data points, \eqn{y}-values are grouped and averaged - not exact!
 #' @examples
 #' isCMS4 <- rownames(crcTCGAsubset) %in%
