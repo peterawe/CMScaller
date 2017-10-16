@@ -7,6 +7,8 @@
 #' @param FDR a numeric, predictions with higher FDR are set to NA.
 #' @param verbose logical, whether console messages are to be displayed.
 #' @details Replaces low-confidence predictions with NA.
+#' @return A data.frame where res$prediction's are set to NA based on
+#' \eqn{p}-value or FDR threshold.
 #' @examples
 #' emat <- ematAdjust(crcTCGAsubset, normMethod = "quantile")
 #' res <- ntp(emat, templates.CMS, doPlot=TRUE, nPerm=100)
