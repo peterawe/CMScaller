@@ -7,7 +7,8 @@
 #' @param key a character vector, gene identifiers to be translated.
 #' @param id.in a character, \code{colnames(anno.orgHs)} are valid options.
 #' @param id.out a character, \code{colnames(anno.orgHs)} are valid options.
-#' @param rough logical, whether to search for more than one match. If
+#' @param rough logical, whether to search for more than one match. If FALSE,
+#' provides more correct console messages.
 #' @param all logical, whether to include all possible matches.
 #' \code{length(key) > 10000}, setting \code{rough=TRUE} increases
 #' speed by >100x, but also suppresses warnings.
@@ -28,14 +29,17 @@
 #' Protocols 4, 1184-1191.
 #' @examples
 #'  fromTo(rownames(crcTCGAsubset)[1:50], "entrez", "symbol")
-#'  head(anno.orgHs) # colnames indicate valid keys
+#'  # colnames indicate valid keys
+#'  # example: AKT3 symbol has one valid Entrez mapping but two different ENSG
+#'  anno.orgHs[anno.orgHs$symbol == "AKT3",]
 #'  fromTo("AKT3", "symbol", "ensg") # expect one
+#'  fromTo("AKT3", "symbol", "entrez") # expect one
+#'  fromTo("AKT3", "symbol", "ensg", rough=FALSE) # expect one
 #'  fromTo("AKT3", "symbol", "ensg", all = TRUE) # expect two
 #'  # number of ids with multiple mappings
 #'  sum(table(anno.orgHs$symbol) > 1)
 #'  sum(table(anno.orgHs$entrez) > 1)
 #'  sum(table(anno.orgHs$ensg) > 1)
-#'  anno.orgHs[anno.orgHs$symbol == "AKT3",]
 fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
                   verbose = getOption("verbose"),
                   rough = FALSE, all = FALSE) {
@@ -73,7 +77,6 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
         if ( length(res) != length(mm))
             message(paste0("length(key)=", length(key),
                            "; length(res)=", length(res)))
-
     }
 
     if (rough==TRUE & all == TRUE)  stop ("rough and all can not both be TRUE")
@@ -89,7 +92,7 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
 
         # match ids and check for NAs and no-hits
         mm <- lapply(as.character(key), function(x) which(tab[,id.in] %in% x))
-        isNA <- sum(sapply(mm, length) == 0)
+        isNA <- sapply(mm, length) == 0
         isMM <- sum(sapply(mm, length) > 1)
 
         # replace
@@ -97,12 +100,19 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
         res <- tab[sapply(mm, "[[", 1), id.out]
 
         # return warnings
-        if (isNA > 0)
-            warning(paste0(isNA, " NA's returned"),
+        if (sum(isNA) > 0) {
+            message(paste0("no corresponding ", id.out, " for ", id.in, " key(s) ",
+                           paste(key[isNA], collapse="; ")))
+            warning(paste0(sum(isNA), " identifiers not translated, NA's returned"),
                            call. = FALSE)
-        if (isMM > 0)
-            warning(paste0(isMM, " multi-match; only one id/key returned!"),
+        }
+
+        if (sum(isMM) > 0) {
+            message(paste0("for ", id.out, " to ", id.in, " multiple mappings for key(s) ",
+                           paste(key[isMM], collapse="; ")))
+            warning(paste0(sum(isMM), " multi-match; only one id/key returned!"),
                            call. = FALSE)
+        }
     }
 
     if (rough == TRUE & all == FALSE) {
