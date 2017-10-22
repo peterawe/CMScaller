@@ -8,7 +8,7 @@
 #' @param id.in a character, \code{colnames(anno.orgHs)} are valid options.
 #' @param id.out a character, \code{colnames(anno.orgHs)} are valid options.
 #' @param rough logical, whether to search for more than one match. If FALSE,
-#' provides more correct console messages.
+#' provides less informative warnings.
 #' @param all logical, whether to include all possible matches.
 #' \code{length(key) > 10000}, setting \code{rough=TRUE} increases
 #' speed by >100x, but also suppresses warnings.
