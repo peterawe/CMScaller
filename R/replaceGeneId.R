@@ -7,7 +7,8 @@
 #' @details Gene identifiers are from the
 #' \code{\link[org.Hs.eg.db]{org.Hs.eg.db}} package.
 #' @return A matrix with rownames gene identifier as specified in id.out.
-#' Rows will be ordered by decreasing standard deviations.
+#' For duplicates, rownames for rows with lower standard deviation are added a
+#' number to make unique.
 #' \code{\link{make.unique}} are used to handle NA and duplicates in output.
 #' @seealso \code{\link{anno.orgHs}}, \code{\link{fromTo}},
 #' \code{\link[org.Hs.eg.db]{org.Hs.eg.db}}, \code{\link[stats]{sd}}
@@ -19,19 +20,19 @@
 #' Protocols 4, 1184-1191.
 #' @examples
 #' # example data
+#' library(Biobase)
 #' x.entrez <- Biobase::exprs(crcTCGAsubset)
 #' # rownames are entrez
 #' head(rownames(x.entrez))
 #' # translate to gene symbols
 #' x.symbol <- replaceGeneId(x.entrez, id.in="entrez", id.out="symbol")
 #' head(rownames(x.symbol))
-#' # output matrix has fewer rows and row ordering is different
-#' dim(x.entrez)
-#' dim(x.symbol) # fewer rows
-#' # x.entrez is not equal to x.entrez2
 #' x.entrez2 <- replaceGeneId(x.symbol, id.in="symbol", id.out="entrez")
-#' dim(x.entrez2)
-replaceGeneId <- function(emat, id.in="symbol", id.out="entrez", verbose=TRUE) {
+#' # translations are not cycle consistent
+#' table(rownames(x.entrez2) == rownames(x.entrez))
+#' # matrix values are not changed
+#' all(x.entrez == x.entrez2)
+replaceGeneId <- function(emat, id.in="symbol", id.out="entrez") {
     if (class(emat) == "ExpressionSet") {
         emat <- suppressPackageStartupMessages(Biobase::exprs(emat))
     }
@@ -39,12 +40,19 @@ replaceGeneId <- function(emat, id.in="symbol", id.out="entrez", verbose=TRUE) {
     if (is.vector(emat)) emat <- matrix(emat, dimnames = list())
     if (is.null(rownames(emat))) stop("missing rownames(emat)")
     row.sd <- apply(emat, 1, stats::sd, na.rm=TRUE)
-    emat <- emat[order(row.sd, decreasing = TRUE),]
 
     key.in  <- rownames(emat)
     key.out <- fromTo(key.in, id.in=id.in, id.out=id.out, rough=TRUE)
+    key.na <- is.na(key.out)
+        message (paste0(sum(key.na), "/", length(key.na),
+                        " rownames [NA.number] (no valid translation)"))
+        message (paste0(sum(duplicated(stats::na.omit(key.out))), "/", length(key.na),
+                        " rownames [id.number] (translation gives duplicates)"))
 
-    rownames(emat) <- make.unique(key.out)
-
+    # ordering by row.sd -> most informative probe are not padded with number
+    key.out <- make.unique(key.out[order(row.sd, decreasing = TRUE)])
+    key.out <- key.out[match(key.in, key.in[order(row.sd, decreasing = TRUE)])]
+    rownames(emat) <- key.out
     return(emat)
 }
+
