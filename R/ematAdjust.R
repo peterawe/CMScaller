@@ -2,8 +2,8 @@
 #' @export
 #' @description Centers and scales gene expression matrix so that each row
 #' has mean=0 and sd=1. If input data is non-normalized sequencing \emph{count}
-#' data, normalization and log-transformation should be performed by setting
-#' \code{normMethod}.
+#' data, normalization should be performed by setting \code{normMethod}. This
+#' also enforces log2-transformation.
 #' @param emat a numeric matrix with row features and sample columns.
 #' @param center numeric of same length as \code{nrow(emat)}.
 #' @param scale numeric of same length as \code{nrow(emat)}.
@@ -24,11 +24,8 @@
 #' \code{ematAdjust} performs row-wise scaling and centering by passing matrix
 #' to \code{\link[base]{scale}}. Setting \code{scale} and \code{center} may be
 #' useful for predicting new samples based on row-wise means and standard
-#' deviations from prior (identically processed) datasets.
-#'
-#' Setting \code{normMethod}
-#'
-#' If \emph{e.g.} \code{signalFilt=.1} features with maximum below emat 10th
+#' deviations from prior (identically processed) datasets. If \emph{e.g.}
+#' \code{signalFilt=.1} features with maximum below emat 10th
 #' percentile are discarded.
 #' @seealso \code{\link[base]{scale}}, \code{\link[limma]{voom}},
 #' \code{\link[limma]{normalizeBetweenArrays}}
