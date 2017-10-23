@@ -17,14 +17,15 @@
 #' @param verbose logical, whether console messages are to be displayed.
 #' @param doPlot logical, whether to produce prediction \code{\link{subHeatmap}}.
 #' @details \code{ntp} implements the Nearest Template Prediction (NTP)
-#' algorithm as proposed by Yujin Hoshida (2010). For each sample,
-#' distances to templates are calculated and class assigned based on smallest
-#' distance. Distances are transformed from the sample-templates correlations.
+#' algorithm largely as proposed by Yujin Hoshida (2010) (see below). For each
+#' sample, distances to templates are calculated and class assigned based on
+#' smallest distance. Distances are transformed from the sample-templates
+#' correlations as follows:
 #' \deqn{d.class = \sqrt(1/2 * (1-(cor(sample,templates))}
-#' Template values are 1 for class features and 0 for non-class features.
-#' Prediction confidence is estimated based on the distance of the
-#' null-distribution, estimated from permutation tests (thus the lowest
-#' possible estimate of the \eqn{p}-value is \eqn{1/nPerm}).
+#' Template values are 1 for class features and 0 for non-class features (-1 if
+#' there are only two classes). Prediction confidence is estimated based on
+#' the distance of the null-distribution, estimated from permutation tests
+#' (thus the lowest possible estimate of the \eqn{p}-value is \eqn{1/nPerm}).
 #' \itemize{
 #'  \item{\code{emat}}{ should be a row-wise \emph{centered and scaled} matrix.
 #'   For large, balanced datasets, this may be achieved by applying
@@ -33,7 +34,16 @@
 #'   template is a set of marker genes with higher expected expression in
 #'   samples belonging to class compared to non-class samples. \code{templates}
 #'   must contain at least two columns named \emph{probe} and \emph{class}.}
-#'   }
+#'  \item{compared to Hoshida (2010), resulting \eqn{p}-value estimates are more
+#'  conservative (by a factor equaling the number of classes) and
+#'  the distances are a monotonic transformation of \eqn{1-cor} (see
+#'  Details section above).}
+#'  \item{Hoshida (2010) does not explicitly state whether input should be
+#'  log2-transformed or not and examples includes both. Based on experience
+#'  this choice affects results only at the margins, but for high-quality
+#'  datasets, normalized, untransformed inputs may yield a small increase in
+#'  accuracy.}
+#'  }
 #' For further details on the NTP algorithm, please refer to package vignette
 #' and \href{http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0015543}{Hoshida (2010)}.
 #'
@@ -77,7 +87,7 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
     if (is.character(templates$class))
         templates$class <- factor(templates$class)
     if (is.factor(templates$probe) | is.integer(templates$probe)) {
-        warning ("templates$probe coerced to character")
+        warning ("templates$probe coerced to character", call.=FALSE)
         templates$probe <-as.character(templates$probe)
     }
 
@@ -109,7 +119,7 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
 
     if (min(table(templates$class ))<5) {
         warning("<5 matched features/class - unstable predictions",
-                call. = FALSE)
+                call.= FALSE)
     }
 
     # prepareInput ############################################################
@@ -128,15 +138,7 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
         isnorm <- " <- check feature centering!"
         emat.sd <- round(stats::sd(emat),2)
         warning(paste0("emat mean=", emat.mean, "; sd=", emat.sd, isnorm),
-                call. = FALSE)
-    }
-
-    # provide warning if emat appears non-log transformed
-    emat.max <- abs(max(emat, na.rm = TRUE))
-    if (emat.max > 25) {
-        islog <- " <- check log-transform!"
-        warning(paste0("emat |max=", signif(emat.max,1), "|", islog),
-                call. = FALSE)
+                call.=FALSE)
     }
 
     # output classification overview
