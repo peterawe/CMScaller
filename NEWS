@@ -1,11 +1,16 @@
-CMScaller v0.2.0
+CMScaller v0.99.0
 ================
+second release - Scientific Reports resubmission and initial Bioconductor submission
 
-* second release - resubmission
-* `template.CRIS` added Isella (2017) CRIS-565 template
-* bug fixes
+* general improvement in documentation and more useful warnings
+* `CMScaller` defeault confidence threshold changed from p=0.1 to FDR=0.1
+* `CMScaller` accepts HGNC symbols and Ensembl rownames (`rowNames` parameter)
+* `templates.CRIS` added Isella CRIS-565 templates
+* `crcTCGAsubset` now includes 92 instead of 80 samples
+* `replaceGeneId` added for quick translation of matrix rownames
+* `geneSets.reactome` added reactome gene sets with NCBI Entrez gene identifiers
+* `subPairs` added for quick overview of templates-sample distances
 
 CMScaller v0.1.0
 ================
-
-* initial release - first submission
+initial release - initial submission
