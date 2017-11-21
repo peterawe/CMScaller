@@ -18,7 +18,7 @@
 #' @return one or more volcano plots where horizontal dashed line is the maximum
 #' \eqn{p}-value below \code{padj} and vertical lines the \code{lfc}-threshold.
 subVolcano <- function(deg, geneID = "rownames",
-                       lfc = log2(2), padj = .01, ave=0,
+                       lfc = log2(2), padj = .05, ave=0,
                        topN = 10, cexText=1,
                        classCol = getOption("subClassCol"),...) {
 
