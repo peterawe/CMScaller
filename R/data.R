@@ -28,7 +28,7 @@
 #' table(templates.CMS$class)
 "templates.CMS"
 
-#' consensus molecular subtype (CMS) templates
+#' development consensus molecular subtype (CMS) templates
 #' @details Colorectal cancer Consensus Molecular Subtypes (CMS) prediction
 #' templates for \code{\link[CMScaller]{ntp}}. Marker genes were
 #' identified using TCGA RNA-sequencing data. \code{templates$probe} refers to
@@ -93,7 +93,7 @@
 #' @details Gene sets from Reactome (Oct-2017) with entrez gene identifiers.
 #' @references Croft D, Mundo AF, Haw R, Milacic M, Weiser J, Wu G, et al. The Reactome pathway knowledgebase. Nucl Acids Res. 2014;42:D472-7.
 #' @examples
-#' head(names(geneSets.rectome))
+#' head(names(geneSets.reactome))
 "geneSets.reactome"
 
 #' gene sets relevant to Consensus Molecular Subtypes

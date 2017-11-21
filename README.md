@@ -1,6 +1,6 @@
-**`CMScaller`: stroma-independent consensus molecular subtyping of colorectal cancer pre-clinical models.**
+**`CMScaller`: an R package for consensus molecular subtyping of colorectal cancer pre-clinical models**
 
-The *CMScaller* package provides Consensus Molecular Subtype (CMS) classification of colorectal cancer pre-clinical models [Guinney 2015; Eide 2017]. A small ensembl of functions for evaluating and visualizing results is also included. The core algorithm is *[Nearest Template Prediction (NTP)](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0015543)* algorithm proposed by Yujin Hoshida [Hoshida 2010]. See accompagnying vignette for further details.
+The `CMScaller` package provides Consensus Molecular Subtype (CMS) classification of colorectal cancer pre-clinical models [Guinney 2015; Eide 2017]. A small ensembl of functions for evaluating and visualizing results is also included. The core algorithm is *[Nearest Template Prediction (NTP)](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0015543)* algorithm proposed by Yujin Hoshida [Hoshida 2010]. See accompagnying vignette for further details.
 
 **Install**
 
@@ -43,7 +43,7 @@ Package builds on *[Bioconductor](http://bioconductor.org/)* to facilitate integ
 
 **References**
 
-Eide PW, Bruun J, Lothe RA, Sveen A. CMScaller: stroma-independent consensus molecular subtyping of colorectal cancer pre-clinical models. Submitted
+Eide PW, Bruun J, Lothe RA, Sveen A. CMScaller: stroma-independent consensus molecular subtyping of colorectal cancer pre-clinical models. Sci Rep. 2017.
 
 Guinney J, Dienstmann R, Wang X, de Reynies A, Schlicker A, Soneson C, et al. The consensus molecular subtypes of colorectal cancer. Nat Med. 2015;21:1350-6.
 
