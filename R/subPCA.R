@@ -66,13 +66,14 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
         ylab = paste0("PC", dim[2], " ", percVar[dim[2]],"%"))
     } else {
     graphics::plot(pscores, col = 0, pch = 16, ...,
+        xlim = range(pscores[,1])*1.1, ylim =range(pscores[,2])*1.1,
         xlab = paste0("PC", dim[1], " ", percVar[dim[1]],"%"),
         ylab = paste0("PC", dim[2], " ", percVar[dim[2]],"%"))
     graphics::text(pscores, labels = rownames(pscores),
-        col = pchCol, cex=cex.fac)
+        col = pchCol, cex=cex.fac, xpd=FALSE)
     }
 
-    if (!is.null(class)) {
+    if (!is.null(class) & legend != "none") {
         graphics::legend(legend, legend = levels(class), bg = "gray95",
             col = classCol, cex =.75, pch=16, text.col = classCol)
     }

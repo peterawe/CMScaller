@@ -286,8 +286,8 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
 
     # returnOutput ############################################################
     if (isTRUE(verbose)) {
-        message("predicted samples/class (FDR<0.1)")
-        print(table(suppressMessages(subSetNA(res, FDR=0.1))$prediction,
+        message("predicted samples/class (FDR<0.05)")
+        print(table(suppressMessages(subSetNA(res, FDR=0.05))$prediction,
                     useNA = "always"))
     }
 
