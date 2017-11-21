@@ -1,0 +1,206 @@
+---
+title: "CMScaller: an R package for consensus molecular subtyping of colorectal cancer pre-clinical models"
+output:
+  BiocStyle::pdf_document:
+    toc: FALSE
+csl: biomed-central
+bibliography: CMScaller.bib
+vignette: >
+  %\VignetteIndexEntry{CMScaller}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Peter W. Eide^1,2,3^, Jarle Bruun^1,2^, Ragnhild A. Lothe^1,2,3^, Anita Sveen^1,2^
+
+^1^ Department of Molecular Oncology, Institute for Cancer Research and ^2^ K.G.Jebsen Colorectal Cancer Research Centre, Oslo University Hospital, Oslo, NO-0424, Norway^3^ Institute for Clinical Medicine, University of Oslo, Oslo, NO-0318, Norway
+
+* contact: peteid@rr-resarch.no or ansvee@rr-research.no
+* `r paste("Date:", Sys.Date())`
+* package: `r pkg_ver("CMScaller")`
+
+```{r prepareSession, include=FALSE}
+library(Biobase)
+library(BiocStyle)
+knitr::opts_chunk$set(fig.width=6, fig.height=3, 
+        dev.args=list(pointsize=8), dpi=150,
+        collapse=TRUE, message=TRUE, echo=TRUE, warnings=FALSE)
+options(scipen=-1, digits=2)
+```
+
+# Introduction
+Colorectal cancers (CRCs) can be divided into four gene expression-based biologically distinct consensus molecular subtypes ([CMS](http://www.nature.com/nm/journal/vaop/ncurrent/full/nm.3967.html)) [@guinney_consensus_2015]. This classification provides prognostic stratification of the patients and presents a potential basis for stratified treatment. The original CMS classifier is dependent on gene expression signals from the immune and stromal compartments and often fails to identify the poor-prognostic CMS4 mesenchymal group in immortalized cell lines and patient-derived organoids. CMScaller uses cancer cell-intrinsic, subtype-specific gene expression markers as features for [*Nearest Template Prediction*](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0015543) [@hoshida_nearest_2010].
+
+# Input data
+`CMScaller` provides robust *cross platform and sample-type* performance given a balanced, homogeneous dataset of >40 unique samples. For less than \~40 samples, sampling variance (by-chance subtype depletion/enrichment) is a concern. Similarly, selection, *e.g.* excluding microsatellite instable (MSI) samples or including only aggressive cancers, would break an underlying assumption and bias the resulting predictions [@zhao_molecular_2015].
+
+# Quick start
+
+## Installation and dependencies
+The following packages are required in order to run examples in this vignette.
+
+* Bioconductor[@huber_orchestrating_2015]: `r Biocpkg(c("Biobase", "limma"))`
+
+In addition, `r Biocpkg("edgeR")` is needed for specific RNA-sequencing normalization methods and `r CRANpkg(c("parallel", "snow"))` for `ntp` parallelization.
+
+```{r, eval=FALSE}
+# dependencies: run if not already installed
+source("https://bioconductor.org/biocLite.R")
+biocLite(c("Biobase", "limma"))
+# proper repository to be fixed for publication
+install.packages("pathToPackageFile/CMScaller_0.99.0.tar.gz", repos=NULL)
+```
+
+## CMS classification
+`CMScaller` function requires an expression matrix or ExpressionSet as input (`emat`). Gene names in `rownames(emat)` must be [NCBI Entrez](https://www.ncbi.nlm.nih.gov/gene), 
+[Ensembl](http://www.ensembl.org/index.html) or [HGNC symbol](http://www.genenames.org/) identifiers. For gene symbols or Ensembl identifiers, parameter `rowNames` must be set to `symbol` or `ensg`, respectively. The code chunk below demonstrates how to perform classification using TCGA primary colorectal cancer example data [@tcga_comprehensive_2012]. 
+
+* microarray data input should be pre-processed and normalized (often *log*~2~transformed)[^log].
+* RNA-sequencing counts/RSEM values could be used directly by setting `RNAseq=TRUE` which activates quantile normalization and *log*~2~transform.
+
+[^log]: Hoshida[@hoshida_nearest_2010] does not explicitly state whether input should be *log*~2~transformed or not and example data includes both. Such transformation reduces the weight of genes with large deviations and will usually affect results at the margins.
+
+```{r quickStart, fig.cap="CMScaller graphic output. **Left** heatmap shows relative expression for template genes. Samples (columns) are ordered according to class predictions and confidence. The height of the white bars below gives the unadjusted prediction *p*-values. Genes (rows) are ordered according to class template. Heatmap color saturation indicates magnitude while red and blue indicate genes up and down relative to the sample mean. **Right** heatmap shows results for Camera gene set analysis. Heatmap color saturation indicates statistical significance and red and blue indicates direction of change."}
+library(Biobase) # if input is ExpressionSet
+library(CMScaller)
+# get RNA-seq counts from TCGA example data
+counts <- exprs(crcTCGAsubset)
+head(counts[,1:3])
+# prediction and gene set analysis
+par(mfrow=c(1,2))
+res <- CMScaller(emat=counts, RNAseq=TRUE, FDR=0.1)
+cam <- CMSgsa(emat=crcTCGAsubset, class=res$prediction,RNAseq=TRUE)
+# comparison with true class
+table(pred=res$prediction, true=crcTCGAsubset$CMS)
+head(res, n=3)
+```
+
+* `rownames(res)` equals `colnames(emat)`
+* class predictions with `NA` for samples with adjusted-$p$-value > threshold 
+* templates distances
+* prediction $p$-values ^[lowest possible estimate of the $p$-value is 1/permutations]
+* prediction FDR-adjusted $p$-values
+
+# Package details
+`CMScaller` is basically a wrapper function for `ntp`. Similarly, `CMSgsa` just provides some presets for `subCamera`.
+
+## Preparing custom templates
+Templates consists of sets of subtype-specific marker genes. `subDEG` performs `r Biocpkg("limma")` differential expression analysis for identification of such markers. Below, is an example on how to prepare custom templates based on a training set with known class labels. `doVoom=TRUE` enables voom transformation - required for proper *limma* modeling of RNA-sequencing counts [@law_voom:_2014].
+
+```{r makeTemplates, fig.keep="last", fig.height=4}
+emat <- crcTCGAsubset
+cms <- emat$CMS.Syn
+train <- sample(seq_along(cms), size=length(cms)/(2))
+deg <- subDEG(emat[,train], class=cms[train], doVoom=TRUE)
+templates <- ntpMakeTemplates(deg, resDEG=TRUE, topN=50)
+templates$symbol <- fromTo(templates$probe)
+tail(templates,n=3)
+```
+
+## Gene Set Analysis 
+`subCamera` provides gene set analysis and visualization and is a wrapper functions for `camera` in the `r Biocpkg("limma")` package. `camera` controls for intra-set gene-wise correlations in order to reduce false-positive rate while retaining statistical power [@wu_camera:_2012; @ritchie_limma_2015]. `CMSgsa` provides preset gene sets to `subCamera`.
+
+```{r visGSA, message=TRUE, fig.cap="Gene Set Analysis (GSA) shows that CMS are biologically distinct.", fig.width=3}
+# increase left margins to accomodate gene set names
+par.old <- par()
+par(mfrow=c(1,1), mar=par.old$mar+c(0,4,0,0))
+subCamera(emat, cms, geneList=geneSets.CRC, doVoom=TRUE)
+# restore margins
+par(mar=par.old$mar)
+```
+
+## Nearest Template Prediction
+`ntp` matches `templates$probe` against `rownames(emat)`. Missing features and features with `NA/NaN`'s are ignored in the prediction. `emat` should be row-wise centered and scaled. 
+
+```{r input}
+# loads included emat, scales and centers
+emat <- crcTCGAsubset
+emat_sc <- ematAdjust(emat, normMethod="quantile")
+head(emat_sc[,1:3])
+```
+
+`ntp` function requires an expression matrix and templates. Since prediction confidence is estimated from permutations, strict $p$-value reproducibility requires `set.seed`. 
+
+```{r}
+# test set prediction
+res <- ntp(emat_sc[,-train], templates, nPerm=1000)
+res <- subSetNA(res, pValue=.1)
+table(pred=res$prediction, true=cms[-train])
+head(res)
+```
+
+`ntp` output is a `data.frame` with $3+K$ columns where $K$ is the number of classes. Rows represent columns in input `emat`. 
+
+* `rownames(res)` equals `colnames(emat)`
+* class predictions with `levels(res$prediction)` equaling `levels(templats$class)`
+* templates distances (defaults to cosine correlation distance)
+* prediction $p$-values
+* prediction FDR-adjusted $p$-values
+
+`subSetNA` function resets predictions with $p$-value or FDR above some arbitrary threshold to `NA`.
+
+
+# Nearest Template Prediction
+Nearest template prediction (NTP) was proposed as a classification algorithm by Yujin Hoshida and published in *PLoS ONE* in 2010 [@hoshida_nearest_2010]. It aims to provide robust single-sample class prediction for high-dimensional, noisy gene expression data. In brief, first, for each subclass, *a template*, a list of genes coherently upregulated is determined. Then, for each sample, *the distance* to each template is calculated and class is assigned based on the smallest distance. Finally, prediction confidence is assessed based on the distance of the null-distribution, estimated from *permutation tests* (feature permutation). The default distance metric selected by Hoshida was a cosine similarity-derived distance (see below). When applied to a reasonably well-balanced homogeneous dataset, row-wise centering and scaling is performed (gene means and standard deviations $\mu=0$, $\sigma=1$). In case of single-sample prediction, feature-wise means and standard deviations from a previous sample set are used to perform sample-wise scaling and centering. The key advantages of the NTP algorithm are conceptual simplicity, biological plausibility, ease of implementation and robustness.
+
+Formally, $N$ samples with expression values for $P$ genes divided into $K$ different classes.
+
+* $\textbf{X}_{[P,N]}$ centered and scaled expression matrix where column vector $x_{[P]}$ is the expression for sample $n$.
+* $M$ is a list of $K$ vectors where each element $m$ is a set of marker features with higher expression in samples belonging to class $k$ as compared to remaining samples. $m$'s  may be of uneven length, but are typically <<$P$
+* $\textbf{Y}_{[P,K]}$ template matrix where $y_{[P]} = [p \in m]$ for class $k$ (0 if not marker, 1 otherwise). 
+
+For the sample and template vectors ${x}$ and ${y}$, a proper distance metric, $d_{x,y}$ for the similarity function $f(x,y)$ is given by $d=\sqrt{\frac{1}{2}(1-f(x,y))}$ [@van_dongen_metric_2012]. Here $f$ is either cosine, Kendall, Pearson or Spearman correlation. Cosine similarity, the angle between two Euclidean vectors is given by $$f(x,y)=\cos{(\theta)}=\frac{\sum{xy}}{\sqrt{\sum{x^2}}{\sqrt{\sum{y^2}}}}$$ 
+
+The following code chunks demonstrate NTP in code.
+
+```{r principleDistance, fig.width=3}
+# random centered/scaled expression matrix and templates
+set.seed(42)
+N <- 5000;P <- 5000;K <- 4;nPerm <- 1000;n <- 1
+X <- matrix(rnorm(P*N, mean=0, sd=1), ncol=N)
+Y <- matrix(rbinom(P*K, size = 1, prob=.01), ncol=K)
+# sample-template correlations (implemented in corCosine)
+cos.sim <- crossprod(X,Y) / outer(
+                sqrt(apply(X, 2, crossprod)), 
+                sqrt(apply(Y, 2, crossprod)))
+# sample-template distances (vectorized)
+simToDist <- function(cos.sim) sqrt(1/2 * (1-cos.sim))
+cos.dist <- simToDist(cos.sim)
+hist(cos.dist, xlab="cosine correlation distance")
+```
+
+For centered, scaled and uncorrelated data, the cosine correlation distance is $\sqrt{0.5\times(1-0)}\approx0.707$. 
+
+Resulting distances is ranked among distances of permutated samples and used to estimate prediction confidence. The lowest possible $p$-value estimate is therefore $1/permutations$ 
+
+```{r principlePermutations}
+# estimate prediction confidence
+pred.class <- apply(cos.dist, 1, which.min)
+pred.dists <- apply(cos.dist, 1, min)
+null.dist <- replicate(nPerm, min(simToDist(corCosine(sample(X[,n]), Y))))
+p <- rank(c(pred.dists[n], null.dist))[1]/(length(null.dist))
+``` 
+
+Code below is not evaluated for this vignette, but illustrates the uniform $p$-value distribution for centered and scaled uncorrelated input[^pval].
+
+[^pval]: present NTP implementation provides more conservative $p$-value estimates than Hoshida[@hoshida_nearest_2010].
+
+```{r pUniform, eval=FALSE}
+# rearrange matrix and templates for ntp input
+rownames(X) <- make.names(seq_len(P))
+templates <- lapply(seq_len(K), function(k) rownames(X)[Y[,k]==1])
+names(templates) <- paste("k", seq_len(K))
+templates <- ntpMakeTemplates(templates, resDEG = FALSE)
+# takes a couple of minutes: 5000 samples and 1000 permutations
+res <- ntp(X, templates, nCores=4L, nPerm=nPerm, doPlot=TRUE)
+# expect uniform distribution
+hist(res$p.value)
+```
+
+# Session
+
+```{r endSession, echo=FALSE, as.is=TRUE}
+sessionInfo()
+```
+
+# References
