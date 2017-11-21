@@ -18,14 +18,14 @@
 #' @return one or more volcano plots where horizontal dashed line is the maximum
 #' \eqn{p}-value below \code{padj} and vertical lines the \code{lfc}-threshold.
 subVolcano <- function(deg, geneID = "rownames",
-                       lfc = log2(2), padj = .01, ave=5,
+                       lfc = log2(2), padj = .01, ave=0,
                        topN = 10, cexText=1,
                        classCol = getOption("subClassCol"),...) {
 
     ddd <- list(...)
     if (!is.null(ddd$main)) main <- ddd$main else main=""
     if (!is.null(ddd$xlab)) xlab <- ddd$xlab else
-        xlab=expression(log[2](fold.change))
+        xlab=expression(log[2](fold~change))
     if (!is.null(ddd$ylab)) ylab <- ddd$ylab else
         ylab=ylab=expression(-log[10](italic(p)))
 
@@ -65,7 +65,7 @@ subVolcano <- function(deg, geneID = "rownames",
         graphics::abline(v=c(-lfc,lfc), h=hline, lty=2)
         # add features crossing threshollds
         ff <- which(abs(x) > lfc & deg$adj.P.Val < padj)
-        if (sum(ff) > 1) {
+        if (length(ff) > 1) {
             cc <- ifelse(x > 0, clCol[1], clCol[2])
             graphics::points(x[ff], y[ff], col=cc[ff], cex=.5)
 
