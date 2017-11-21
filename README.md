@@ -7,12 +7,14 @@ The *CMScaller* package provides Consensus Molecular Subtype (CMS) classificatio
 From R/RStudio uncomment as required and run the following code 
 
 ```{r}
-# dependencies: run if not already installed
-# limma has lof of dependencies - takes time
-source("https://bioconductor.org/biocLite.R")
-biocLite(c("Biobase", "limma"))
-# proper repository to be fixed for publication
-install.packages("pathToPackageFile/CMScaller_0.1.0.tar.gz", repos = NULL)
+### dependencies: run if not already installed
+### limma has lof of dependencies - takes time
+# source("https://bioconductor.org/biocLite.R")
+# biocLite(c("Biobase", "limma"))
+# install.packages("devtools", repos = NULL)
+
+### install: latest version
+devtools::install_github("Lothelab/CMScaller")
 ```
 
 **Quick start**
