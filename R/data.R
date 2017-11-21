@@ -5,9 +5,7 @@
 #' Consensus Molecular Subtypes (Guinney 2015), Sadanandam subtypes
 #' (Isella 2015) and ABSOLUTE estimated tumor purity (Aran 2015). Features were
 #' annotated using \code{\link[CMScaller]{fromTo}}. Rownames are Entrez ids.
-#' Feature data column \code{isTrain} indicates 75\% randomly selected samples
-#' used for training \code{\link{templates.CMS}} and \code{\link{templates.MSI}}.
-#' Included are 80 random HiSeq test set samples with genes with maximum count
+#' Included are 92 HiSeq test set samples with genes with maximum count
 #' exceeding 25.
 #' @references Aran D, Sirota M, Butte AJ. Systematic pan-cancer analysis of tumour purity. Nat Commun. 2015;6:8971.
 #' @references Guinney J, Dienstmann R, Wang X, de Reynies A, Schlicker A, Soneson C, et al. The consensus molecular subtypes of colorectal cancer. Nat Med. 2015;21:1350-6.
@@ -30,10 +28,26 @@
 #' table(templates.CMS$class)
 "templates.CMS"
 
+#' consensus molecular subtype (CMS) templates
+#' @details Colorectal cancer Consensus Molecular Subtypes (CMS) prediction
+#' templates for \code{\link[CMScaller]{ntp}}. Marker genes were
+#' identified using TCGA RNA-sequencing data. \code{templates$probe} refers to
+#' Entrez ids. Compared to \code{\link{templates.CMS}} this was prepared using
+#' additional filters steps to further clean genes also expressed by
+#' non-carcinoma cell types. Predictions are usually highly concordant with
+#' \code{\link{templates.CMS}}. Under development.
+#' @references Guinney J, Dienstmann R, Wang X, de Reynies A, Schlicker A, Soneson C, et al. The consensus molecular subtypes of colorectal cancer. Nat Med [Internet]. 2015 [cited 2015 Nov 5];advance online publication. Available from: \url{http://www.nature.com/nm/journal/vaop/ncurrent/full/nm.3967.html}
+#' @references Hoshida Y. Nearest Template Prediction: A Single-Sample-Based Flexible Class Prediction with Confidence Assessment. PLoS ONE. 2010;5:e15543.
+#' @examples
+#' length(intersect(templates.CMS$symbol, templates.CMSi$symbol))
+#' length(setdiff(templates.CMS$symbol, templates.CMSi$symbol))
+"templates.CMSi"
+
+
 #' CRC intrinsic subtypes (CRIS) templates
 #' @details Colorectal cancer CRC intrinsic subtypes (CRIS) prediction
 #' templates for \code{\link[CMScaller]{ntp}} retrieved from Supplementary Table
-#' 8 (Isella 2017).
+#' 8 (Isella 2017). Suspicious (Mar-03) or legacy gene symbols were updated.
 #' @references Isella C, Brundu F, Bellomo SE, Galimi F, Zanella E, Porporato R, et al. Selective analysis of cancer-cell intrinsic transcriptional traits defines novel clinically relevant subtypes of colorectal cancer. Nat Commun [Internet]. 2017 [cited 2017 Sep 11];8:ncomms15107. Available from: \url{https://www.nature.com/articles/ncomms15107}
 #' @examples
 #' dim(templates.CRIS)
@@ -74,6 +88,13 @@
 #' # longest gene
 #' anno.orgHs[which.max(anno.orgHs$length),]
 "anno.orgHs"
+
+#' gene sets for exploratory gene set analysis
+#' @details Gene sets from Reactome (Oct-2017) with entrez gene identifiers.
+#' @references Croft D, Mundo AF, Haw R, Milacic M, Weiser J, Wu G, et al. The Reactome pathway knowledgebase. Nucl Acids Res. 2014;42:D472-7.
+#' @examples
+#' head(names(geneSets.rectome))
+"geneSets.reactome"
 
 #' gene sets relevant to Consensus Molecular Subtypes
 #' @description Geneset is a named list of Entrez idds. Watanabe CRC MSS/MSI,
