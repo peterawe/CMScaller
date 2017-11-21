@@ -3,23 +3,28 @@
 #' subtype templates.
 #' @export
 #' @param emat a numeric expression matrix with sample columns, gene rows and
-#' Entrez rownames. Microarray data should be normalized and log2-transformed.
-#' For RNA-seq data, counts or RSEM values could be used directly by setting
-#' \code{RNAseq=TRUE}.
+#' Entrez rownames. Microarray data should be normalized. For RNA-seq data,
+#' counts or RSEM values could be used directly by setting \code{RNAseq=TRUE}.
 #' @param templates a data frame with two columns; \emph{class} (coerced to
 #' factor) and \emph{probe} (coerced to character).
+#' @param rowNames a character, either "entrez" (NCBI Entrez),
+#' "symbol" (HGNC symbol) or "ensg" (Ensembl). If set to other than "entrez",
+#' \code{\link{replaceGeneId}} is used to translate \code{rownames(emat)}.
 #' @param RNAseq a logical, set to TRUE if emat is untransformed, non-normalized
 #' sequencing counts or RSEM values.
 #' @param nPerm an integer, number of permutations for \eqn{p}-value
 #' estimation.
 #' @param seed an integer, for \eqn{p}-value reproducibility.
-#' @param FDR a false discovery rate setting prediction confidence threshold.
+#' @param FDR a false discovery rate, sets prediction confidence threshold.
 #' @param verbose a logical, whether console messages are to be displayed.
 #' @param doPlot a logical, whether to produce prediction \code{\link{subHeatmap}}.
 #' @details \code{CMScaller} provides classification based on pre-defined
-#' cancer-cell intrinsic CMS templates. The core algorithm is Nearest Template
-#' Prediction (NTP) algorithm as proposed by Yujin Hoshida (2010). See
-#' \code{\link{ntp}} for further details.
+#' cancer-cell intrinsic CMS templates. If \code{RNA-seq=TRUE}, a pseudocount
+#' of 0.25 is added, matrix log2-transformed and quantile normalized
+#' (\code{\link[limma]{normalizeQuantiles}}) prior to scaling/centering and
+#' prediction. The core algorithm is the Nearest Template Prediction (NTP)
+#' algorithm as proposed by Yujin Hoshida (2010). See \code{\link{ntp}} for
+#' further details.
 #' @note genes with missing values are discarded.
 #' @return a data frame with class predictions, template distances,
 #' \eqn{p}-values and false discovery rate adjusted \eqn{p}-values
@@ -38,8 +43,9 @@
 #' head(res)
 #' hist(res$p.value)
 CMScaller <- function(emat, templates=CMScaller::templates.CMS,
+                    rowNames="entrez",
                     RNAseq=FALSE, nPerm=1000, seed=NULL,
-                    FDR=0.1, doPlot=TRUE, verbose=TRUE) {
+                    FDR=0.05, doPlot=TRUE, verbose=TRUE) {
 
     # checkInput ##############################################################
 
@@ -51,25 +57,31 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
     if (is.vector(emat)) emat <- matrix(emat, dimnames = list())
     if (is.null(rownames(emat))) stop("missing Entrez id rownames(emat)")
 
-    if (ncol(emat) < 30) warnings("few samples - low prediction confidence")
+    if (ncol(emat) < 30) warnings("few samples - high prediction variance",
+                                call.=FALSE)
 
-    # quantile normalize RNA-seq data
-    if (isTRUE(RNAseq)) {
-        if (isTRUE(verbose)) message("performing quantile normalization...")
-        emat <- limma::normalizeQuantiles(log2(emat+.25)) # + pseudo-count
+    if (rowNames != "entrez") {
+        if (!rowNames %in% c("symbol", "ensg"))
+            stop("invalid rowNames, must be either entrez, symbol or ensg")
+            emat <- replaceGeneId(emat, id.in=rowNames, id.out="entrez")
     }
-    # sanity check I - whether input data is log2-transformed
-    emat.max <- abs(max(emat, na.rm = TRUE))
-        if (emat.max > 25) {
-            islog <- " <- check normalization and log-transformation"
-            warning(paste0("emat max=", signif(emat.max,2), islog),
-                    call. = FALSE)
-        }
 
-    # sanity check II - whether rownames appear to be Entrez ids
-    mm <- sum(is.na(fromTo(rownames(emat), rough=TRUE)))/nrow(emat)
-    if (mm > 0.15)
-        warning ("check that templates$probe and rownames(emat) are compatible")
+    # log2-transform and quantile normalize RNA-seq data
+    if (isTRUE(RNAseq)) {
+        if (isTRUE(verbose))
+            message("performing log2-transform and quantile normalization...")
+        emat <- limma::normalizeQuantiles(log2(emat+.25))
+    }
+
+    # sanity check - whether rownames appear to be Entrez ids
+    is.na.rows <- is.na(fromTo(rownames(emat), rough=TRUE))
+    mm <- sum(is.na.rows)/nrow(emat)
+    if (mm > 0.15) {
+        message (paste0(sum(is.na.rows),"/",nrow(emat),
+                    " rownames(emat) failed to match to human gene identifiers"))
+        warning (paste0("verify that rownames(emat) are ", rowNames),
+                call.=FALSE)
+    }
 
     # scale and center data, basically a wrapper for scale() function
     emat <- ematAdjust(emat)
@@ -84,7 +96,7 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
 
     # sanity check III - whether any FDR-values are above .1
     if (nPerm > 500) if (min(res$FDR) > .1)
-        warning("low-confidence predictions - check input")
+        warning("low-confidence predictions - check input",call.=FALSE)
 
     return(res)
 }
