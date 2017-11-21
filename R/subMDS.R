@@ -17,6 +17,8 @@
 #' colnames(emat) are plotted.
 #' @param labelCenters a logical indicating whether class centers should be
 #' labeled.
+#' @param legend a character specifying legend placement (e.g. "topleft",
+#' "bottomright").
 #' @param classConfusion a factor vector with same length and levels as
 #' \code{class} specifying alternative classifications.
 #' @param classCol a character vector of hexcolors with
@@ -38,6 +40,7 @@ subMDS <- function(emat, class = NULL, keepN = TRUE,
                     dim = c(1,2),
                     labelSamp = FALSE,
                     labelCenters = TRUE, classConfusion = NULL,
+                    legend="bottomleft",
                     classCol = getOption("subClassCol"),...)
     {
 
@@ -64,8 +67,8 @@ subMDS <- function(emat, class = NULL, keepN = TRUE,
                         top=nGenes,...)
     }
 
-    if (!is.null(class)) {
-        graphics::legend("topleft", legend = levels(class), bg = "gray95",
+    if (!is.null(class) & legend != "none") {
+        graphics::legend(legend, legend = levels(class), bg = "gray95",
            col = classCol, cex = .75, pch = "*", text.col = classCol)
     }
 
