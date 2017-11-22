@@ -11,7 +11,7 @@ From R/RStudio uncomment as required and run the following code
 ### limma has lof of dependencies - takes time
 # source("https://bioconductor.org/biocLite.R")
 # biocLite(c("Biobase", "limma"))
-# install.packages("devtools", repos = NULL)
+# install.packages("devtools")
 
 ### install: latest version
 devtools::install_github("Lothelab/CMScaller")
@@ -39,19 +39,19 @@ subVolcano(deg, geneID="symbol")
 
 **Design**
 
-Package builds on *[Bioconductor](http://bioconductor.org/)* to facilitate integration with existing workflows [Huber 2015] and was developed in *[RStudio](https://www.rstudio.com/)* following guidelines in [R packages](http://r-pkgs.had.co.nz/) [Wickham 2015]. Devtools and roxygen
+Package builds on *[Bioconductor](http://bioconductor.org/)* to facilitate integration with existing workflows [Huber 2015] and was developed in *[RStudio](https://www.rstudio.com/)* following guidelines in [R packages](http://r-pkgs.had.co.nz/) [Wickham 2015].
 
 **References**
 
-Eide PW, Bruun J, Lothe RA, Sveen A. CMScaller: stroma-independent consensus molecular subtyping of colorectal cancer pre-clinical models. Sci Rep. 2017.
+Eide PW, Bruun J, Lothe RA, Sveen A. CMScaller: an R package for consensus molecular subtyping of colorectal cancer pre-clinical models. Sci Rep. 2017. https://www.nature.com/articles/s41598-017-16747-x
 
-Guinney J, Dienstmann R, Wang X, de Reynies A, Schlicker A, Soneson C, et al. The consensus molecular subtypes of colorectal cancer. Nat Med. 2015;21:1350-6.
+Guinney J, Dienstmann R, Wang X, de Reynies A, Schlicker A, Soneson C, et al. The consensus molecular subtypes of colorectal cancer. Nat Med. 2015;21:1350-6. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4636487/
 
-Hoshida, Y. Nearest Template Prediction: A Single-Sample-Based Flexible Class Prediction with Confidence Assessment. PLoS ONE 2010;5, e15543.
+Hoshida, Y. Nearest Template Prediction: A Single-Sample-Based Flexible Class Prediction with Confidence Assessment. PLoS ONE 2010;5, e15543.  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2990751/ 
 
 Huber W, Carey VJ, Gentleman R, Anders S, Carlson M, Carvalho BS, et al. Orchestrating high-throughput genomic analysis with Bioconductor. Nat Meth. 2015;12:115–21. 
 
-R Core Team. R: A Language and Environment for Statistical Computing [Internet]. Vienna, Austria: R Foundation for Statistical Computing; 2013. Available from: http://www.R-project.org/
+R Core Team. R: A Language and Environment for Statistical Computing [Internet]. Vienna, Austria: R Foundation for Statistical Computing; 2013. http://www.R-project.org/
 
 Wickham, H. R Packages: Organize, Test, Document, and Share Your Code. 1st ed. O’Reilly Media. 2015.
 
