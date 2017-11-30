@@ -1,14 +1,14 @@
 CMScaller v0.99.1
 ================
-bug and feature fixing
+Scientific Reports publication
 
 CMScaller v0.99.0
 ================
 Scientific Reports resubmission and initial Bioconductor submission
 
 * licensce is now GPL v3.0
-* documentation improved, more useful warnings added and bug fixed
-* `CMScaller` defeault confidence threshold changed from p=0.1 to FDR=0.1
+* documentation improved, more useful warnings added
+* `CMScaller` defeault confidence threshold changed from p=0.1 to FDR=0.05
 * `CMScaller` accepts HGNC symbols and Ensembl rownames (`rowNames` parameter)
 * `templates.CRIS` added Isella CRIS-565 templates
 * `crcTCGAsubset` now includes 92 instead of 80 samples
