@@ -15,7 +15,7 @@ Peter W. Eide^1,2,3^, Jarle Bruun^1,2^, Ragnhild A. Lothe^1,2,3^, Anita Sveen^1,
 
 ^1^ Department of Molecular Oncology, Institute for Cancer Research and ^2^ K.G.Jebsen Colorectal Cancer Research Centre, Oslo University Hospital, Oslo, NO-0424, Norway^3^ Institute for Clinical Medicine, University of Oslo, Oslo, NO-0318, Norway
 
-* contact: peteid@rr-resarch.no or ansvee@rr-research.no
+* contact: peteid@rr-research.no or ansvee@rr-research.no
 * `r paste("Date:", Sys.Date())`
 * package: `r pkg_ver("CMScaller")`
 
@@ -68,7 +68,7 @@ counts <- exprs(crcTCGAsubset)
 head(counts[,1:3])
 # prediction and gene set analysis
 par(mfrow=c(1,2))
-res <- CMScaller(emat=counts, RNAseq=TRUE, FDR=0.1)
+res <- CMScaller(emat=counts, RNAseq=TRUE, FDR=0.05)
 cam <- CMSgsa(emat=crcTCGAsubset, class=res$prediction,RNAseq=TRUE)
 # comparison with true class
 table(pred=res$prediction, true=crcTCGAsubset$CMS)

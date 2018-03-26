@@ -1,0 +1,14 @@
+bibentry(bibtype = "Article",
+         title = "CMScaller: an R package for consensus molecular subtyping of colorectal cancer pre-clinical models",
+         journal="Scientific Reports",
+         volume=7,
+         pages=16618,
+         doi="10.1038/s41598-017-16747-x",
+         
+         author = c(person("Peter W.", "Eide"),
+                    person("Jarle", "Bruun"),
+                    person("Ragnhild A.", "Lothe"),
+                    person("Anita", "Sveen")),
+         year = 2017,
+         note = "Updates will be available on https://github.com/Lothelab/CMScaller",
+         url = "https://www.nature.com/articles/s41598-017-16747-x")
