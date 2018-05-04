@@ -205,7 +205,8 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
     colnames(cam.mat) <- subtypes
     rownames(cam.mat) <- names(index)
 
-    keepCam <- apply(cam.mat, 1, function(x) max(abs(x))) > -log10(pValue)
+    keepCam <- apply(cam.mat, 1, function(x)
+        max(abs(x),na.rm=TRUE)) > -log10(pValue)
     # get the per-class top hits
     if (!is.null(topN) & topN < nrow(cam.mat)) {
         cam.rank <- apply(-cam.mat, 2, rank)
@@ -277,7 +278,7 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
         yy <- seq(yy[1], yy[2],length=3)[-1]
         xx <- seq(0, 1, length.out = K+1)
         graphics::rect(xleft=xx[-(K+1)], xright = xx[-1],
-            ybottom = yy[1], ytop = yy[2],
+            ybottom = yy[1], ytop = yy[2], border = FALSE,
             col=classCol[non.empty.level], xpd=TRUE, lwd=.75)
 
         # add samples/group
@@ -297,8 +298,8 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
 
         textfun(xx, (yy[2]+yy[3])/2, c(pMax,0,pMax), pos=1, cex.text=.75)
         textfun(xx[-2], yy[3], c("dn", "up"), pos=c(2,4), cex.text=.75)
-        textfun(xx[2], line2user(3,1), expression(-log[10](italic(p)-value)),
-                pos=1, cex.text=.75)
+        textfun(xx[2], line2user(3,1), expression(-log[10](italic(p))),
+                pos=1, cex.text=.9)
     }
 
     if (doPlot == TRUE & K == 2) {
