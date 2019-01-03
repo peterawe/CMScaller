@@ -8,7 +8,7 @@
 #' @param templates a data frame with two columns; \emph{class} (coerced to
 #' factor) and \emph{probe} (coerced to character).
 #' @param rowNames a character, either "entrez" (NCBI Entrez),
-#' "symbol" (HGNC symbol) or "ensg" (Ensembl). If set to other than "entrez",
+#' "symbol" (HGNC symbol) or "ensg" (Ensembl). If set to other than "ensg",
 #' \code{\link{replaceGeneId}} is used to translate \code{rownames(emat)}.
 #' @param RNAseq a logical, set to TRUE if emat is untransformed, non-normalized
 #' sequencing counts or RSEM values.
@@ -43,7 +43,7 @@
 #' head(res)
 #' hist(res$p.value)
 CMScaller <- function(emat, templates=CMScaller::templates.CMS,
-                    rowNames="entrez",
+                    rowNames="ensg",
                     RNAseq=FALSE, nPerm=1000, seed=NULL,
                     FDR=0.05, doPlot=TRUE, verbose=TRUE) {
 
@@ -55,15 +55,15 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
     }
     if (class(emat) == "data.frame") emat <- as.matrix(emat)
     if (is.vector(emat)) emat <- matrix(emat, dimnames = list())
-    if (is.null(rownames(emat))) stop("missing Entrez id rownames(emat)")
+    if (is.null(rownames(emat))) stop("missing Ensembl id rownames(emat)")
 
     if (ncol(emat) < 30) warnings("few samples - high prediction variance",
                                 call.=FALSE)
 
-    if (rowNames != "entrez") {
-        if (!rowNames %in% c("symbol", "ensg"))
+    if (rowNames != "ensg") {
+        if (!rowNames %in% c("symbol", "entrez"))
             stop("invalid rowNames, must be either entrez, symbol or ensg")
-            emat <- replaceGeneId(emat, id.in=rowNames, id.out="entrez")
+            emat <- replaceGeneId(emat, id.in=rowNames, id.out="ensg")
     }
 
     # log2-transform and quantile normalize RNA-seq data

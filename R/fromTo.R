@@ -28,7 +28,8 @@
 #' integration of genomic datasets with the R/Bioconductor package. Nature
 #' Protocols 4, 1184-1191.
 #' @examples
-#'  fromTo(rownames(crcTCGAsubset)[1:50], "entrez", "symbol")
+#'  library(Biobase)
+#'  fromTo(rownames(crcTCGAsubset)[1:50], "ensg", "symbol")
 #'  # colnames indicate valid keys
 #'  # example: AKT3 symbol has one valid Entrez mapping but two different ENSG
 #'  anno.orgHs[anno.orgHs$symbol == "AKT3",]
@@ -44,6 +45,9 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
                   verbose = getOption("verbose"),
                   rough = FALSE, all = FALSE) {
 
+    ### namespace issue #######################################################
+    if (!exists("anno.orgHs")) utils::data(anno.orgHs, package="CMScaller")
+
     #### checkInput ###########################################################
 
     if (sum(is.na(key)) > 0 & (rough == FALSE & all == FALSE))
@@ -51,25 +55,25 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
 
     # guess input id and use entrez as output in case of id.in == id.out
     if (is.null(id.in)) {
-        mm <- apply(CMScaller::anno.orgHs, 2, function(x) sum(key %in% x))
-        id.in <- colnames(CMScaller::anno.orgHs)[which.max(mm)]
+        mm <- apply(anno.orgHs, 2, function(x) sum(key %in% x))
+        id.in <- colnames(anno.orgHs)[which.max(mm)]
         if (id.in == id.out) id.out <- "symbol"
         if (id.in == id.out) id.out <- "entrez"
         if (verbose == TRUE)
             message(paste0(id.in, " guessed as id.in, id.out is ", id.out))
     } else {
-        if (!id.in %in% colnames(CMScaller::anno.orgHs)) stop("invalid id.in")
+        if (!id.in %in% colnames(anno.orgHs)) stop("invalid id.in")
     }
 
-    if (!id.out %in% colnames(CMScaller::anno.orgHs)) stop("invalid id.out")
+    if (!id.out %in% colnames(anno.orgHs)) stop("invalid id.out")
 
     #### matchInform ##########################################################
 
     # but counts number of NAs and multi-matches
     if (all == TRUE & rough == FALSE) {
-        tab <- CMScaller::anno.orgHs[!duplicated(paste0(
-            CMScaller::anno.orgHs[,id.in], CMScaller::anno.orgHs[,id.out])) &
-                CMScaller::anno.orgHs[,id.in] %in% key,c(id.in,id.out),drop = FALSE]
+        tab <- anno.orgHs[!duplicated(paste0(
+            anno.orgHs[,id.in], anno.orgHs[,id.out])) &
+                anno.orgHs[,id.in] %in% key,c(id.in,id.out),drop = FALSE]
 
         # match ids and check for NAs and no-hits
         mm <- lapply(as.character(key), function(x) which(tab[,id.in] %in% x))
@@ -84,9 +88,9 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
     if (rough==FALSE & all == FALSE) {
 
         # reduce search space -> matching is slow
-        tab <- CMScaller::anno.orgHs[!duplicated(paste0(
-            CMScaller::anno.orgHs[,id.in], CMScaller::anno.orgHs[,id.out])) &
-            CMScaller::anno.orgHs[,id.in] %in% key,c(id.in,id.out),drop = FALSE]
+        tab <- anno.orgHs[!duplicated(paste0(
+            anno.orgHs[,id.in], anno.orgHs[,id.out])) &
+            anno.orgHs[,id.in] %in% key,c(id.in,id.out),drop = FALSE]
 
         if (nrow(tab) == 0) stop("key not found - check id.in",call. = FALSE)
 
@@ -117,8 +121,8 @@ fromTo = function(key = NULL, id.in = NULL, id.out = "symbol",
 
     if (rough == TRUE & all == FALSE) {
     # matchFast ###############################################################
-        res <- CMScaller::anno.orgHs[,id.out][
-                match(key, CMScaller::anno.orgHs[,id.in])]
+        res <- anno.orgHs[,id.out][
+                match(key, anno.orgHs[,id.in])]
     }
 
     # sanity check
