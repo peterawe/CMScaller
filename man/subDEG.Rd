@@ -30,11 +30,11 @@ performed (as opposed to class k against K-k).}
 
 \item{normMethod}{a character, only used if doVoom=TRUE and passed to}
 
-\item{returnTreat}{logical}
+\item{returnTreat}{logical, if true, parameters lfc and padj are passed to \code{\link[limma]{topTreat}}, else \code{\link[limma]{eBayes}} are used and results sorted as indicated by sortBy parameter.}
 
-\item{lfc}{numeric}
+\item{lfc}{numeric, only applicable if returnTreat=TRUE, if FALSE, all genes are returned}
 
-\item{padj}{numeric}
+\item{padj}{numeric, only applicable if returnTreat=TRUE, if FALSE, all genes are returned}
 
 \item{feat}{data frame with feature data}
 

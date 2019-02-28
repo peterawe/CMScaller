@@ -17,15 +17,15 @@
 #' @param verbose logical, whether console messages are to be displayed.
 #' @param doPlot logical, whether to produce prediction \code{\link{subHeatmap}}.
 #' @details \code{ntp} implements the Nearest Template Prediction (NTP)
-#' algorithm largely as proposed by Yujin Hoshida (2010) (see below). For each
+#' algorithm, largely as proposed by Yujin Hoshida (2010) (see below). For each
 #' sample, distances to templates are calculated and class assigned based on
 #' smallest distance. Distances are transformed from the sample-templates
 #' correlations as follows:
 #' \deqn{d.class = \sqrt(1/2 * (1-(cor(sample,templates))}
 #' Template values are 1 for class features and 0 for non-class features (-1 if
 #' there are only two classes). Prediction confidence is estimated based on
-#' the distance of the null-distribution, estimated from permutation tests
-#' (thus the lowest possible estimate of the \eqn{p}-value is \eqn{1/nPerm}).
+#' the distance of the null-distribution, estimated from permutation tests.
+#' Thus the lowest possible estimate of the \eqn{p}-value is \eqn{1/nPerm}.
 #' \itemize{
 #'  \item{\code{emat}}{ should be a row-wise \emph{centered and scaled} matrix.
 #'   For large, balanced datasets, this may be achieved by applying
@@ -49,9 +49,9 @@
 #'
 #' Parallel processing is implemented through \pkg{parallel}
 #' \code{\link[parallel]{mclapply}} or \pkg{snow} \code{\link[snow]{parLapply}}
-#' for nix and Windows systems respectively.
+#' for nix and Windows systems, respectively.
 #' @note \itemize{
-#' \item{features with missing features are discarded.}
+#' \item{features with missing values are discarded.}
 #' \item{setting seed disables parallel processing to ensure \eqn{p}-value
 #' reproducibility.}
 #' \item{for two random uncorrelated vectors \eqn{x,y} \eqn{N\sim(0,1)}

@@ -4,7 +4,7 @@
 \name{anno.orgHs}
 \alias{anno.orgHs}
 \title{annotation for translating between gene identifiers}
-\format{An object of class \code{data.frame} with 63242 rows and 6 columns.}
+\format{An object of class \code{data.frame} with 58219 rows and 7 columns.}
 \usage{
 anno.orgHs
 }
@@ -16,30 +16,22 @@ names, GO terms and so on, please refer to R Bioconductor packages
 \code{AnnotationDbi} and \code{org.Hs.eg.db}.
 }
 \details{
-Gene identifiers are from \code{\link[org.Hs.eg.db]{org.Hs.eg.db}}
-package. Gene biotype is from Ensembl biomaRt
-(\url{http://www.ensembl.org/biomart}). Gene length
-(exons) and proportion GC-bases were calculated based on GENCODE
-v25/GRCh38.p7.genome data (\url{http://www.gencodegenes.org/}).
-}
-\note{
-Exon gene length may be longer than any specific transcript as
-all annotated exons are included.
+Data is from GENCODE v26/GRCh38.p10. with NCBI Entrez identifiers matched using HGNC symbol against \code{\link[org.Hs.eg.db]{org.Hs.eg.db}} package.
 }
 \examples{
 head(anno.orgHs)
 dim(anno.orgHs)
 colSums(apply(anno.orgHs, 2, is.na))
 colSums(!apply(anno.orgHs[,1:4], 2, duplicated))
-# longest gene
+# some extremes
 anno.orgHs[which.max(anno.orgHs$length),]
+anno.orgHs[which.min(anno.orgHs$length),]
+anno.orgHs[which.max(anno.orgHs$GC),]
+anno.orgHs[which.min(anno.orgHs$GC),]
+attributes(anno.orgHs)$genome
 }
 \references{
-Carlson M. org.Hs.eg.db: Genome wide annotation for Human. R package version 3.3.0.
-
-Durinck S, Spellman PT, Birney E, Huber W. Mapping identifiers for the integration of genomic datasets with the R/Bioconductor package biomaRt. Nat Protocols. 2009;4:1184-91.
-
-Durinck S, Moreau Y, Kasprzyk A, Davis S, Moor BD, Brazma A, et al. BioMart and Bioconductor: a powerful link between biological databases and microarray data analysis. Bioinformatics. 2005;21:3439-40.
+Carlson M. org.Hs.eg.db: Genome wide annotation for Human. R package version 3.7.0.
 
 Harrow J, Frankish A, Gonzalez JM, Tapanari E, Diekhans M, Kokocinski F, et al. GENCODE: The reference human genome annotation for The ENCODE Project. Genome Res. 2012;22:1760-74.
 }

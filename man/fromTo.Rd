@@ -44,7 +44,8 @@ with more than one possible match, only first match is returned (thus
 \emph{rough}).
 }
 \examples{
- fromTo(rownames(crcTCGAsubset)[1:50], "entrez", "symbol")
+ library(Biobase)
+ fromTo(rownames(crcTCGAsubset)[1:50], "ensg", "symbol")
  # colnames indicate valid keys
  # example: AKT3 symbol has one valid Entrez mapping but two different ENSG
  anno.orgHs[anno.orgHs$symbol == "AKT3",]

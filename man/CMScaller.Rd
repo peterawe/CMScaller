@@ -4,9 +4,9 @@
 \alias{CMScaller}
 \title{CMS classification}
 \usage{
-CMScaller(emat, templates = CMScaller::templates.CMS, rowNames = "entrez",
-  RNAseq = FALSE, nPerm = 1000, seed = NULL, FDR = 0.05,
-  doPlot = TRUE, verbose = TRUE)
+CMScaller(emat, templates = CMScaller::templates.CMS,
+  rowNames = "ensg", RNAseq = FALSE, nPerm = 1000, seed = NULL,
+  FDR = 0.05, doPlot = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{emat}{a numeric expression matrix with sample columns, gene rows and
@@ -17,7 +17,7 @@ counts or RSEM values could be used directly by setting \code{RNAseq=TRUE}.}
 factor) and \emph{probe} (coerced to character).}
 
 \item{rowNames}{a character, either "entrez" (NCBI Entrez),
-"symbol" (HGNC symbol) or "ensg" (Ensembl). If set to other than "entrez",
+"symbol" (HGNC symbol) or "ensg" (Ensembl). If set to other than "ensg",
 \code{\link{replaceGeneId}} is used to translate \code{rownames(emat)}.}
 
 \item{RNAseq}{a logical, set to TRUE if emat is untransformed, non-normalized

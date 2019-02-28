@@ -4,14 +4,14 @@
 \name{geneSets.CRC}
 \alias{geneSets.CRC}
 \title{gene sets relevant to Consensus Molecular Subtypes}
-\format{An object of class \code{list} of length 70.}
+\format{An object of class \code{list} of length 68.}
 \usage{
 geneSets.CRC
 }
 \description{
-Geneset is a named list of Entrez idds. Watanabe CRC MSS/MSI,
+Geneset is a named list of Ensembl idds. Watanabe CRC MSS/MSI,
 Liu CDX2, Lucas HNF4A, and Servitja HNF1A were retrieved from MutSigDB C2
-(v5.2). Gastro-Intestinal enriched genes are from the \href{http://www.proteinatlas.org/humanproteome/gastrointestinal+tract}{Human Protein Atlas}
+(v6.2). Gastro-Intestinal enriched genes are from the \href{http://www.proteinatlas.org/humanproteome/gastrointestinal+tract}{Human Protein Atlas}
 Extracellular Matrix mCRC is from Naba Additional Data 2.
 Crypt signatures are based on Merlos-Suarez Supplementary Table 5.
 MYB signature is based on Thorner Supplementary Table 2.
@@ -21,7 +21,7 @@ TGF-beta signatures are based on reanalysis of Fessler GSE79461.
 CTNNB1/Beta-catenin signature is based on Watanabe Supplementary Table 1.
 WNT signatures are based on Vermeulen Supplementary Table S1.
 Retionic acid signatures are based on Duffy Supplementary Table 2.
-Remaining are either from MutSigDB Hallmarks (v5.2) or Reactome (Dec-2016).
+Remaining are either from MutSigDB Hallmarks (v6.2) or Reactome (Dec-2016).
 }
 \examples{
 names(geneSets.CRC)
