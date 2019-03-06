@@ -39,6 +39,8 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
 
     # prepare input data
     if (!is.null(class)) {
+        non.empty.level <- table(class[keepN], useNA="ifany")>0
+        classCol <- classCol[which(non.empty.level)]
         class <- droplevels(as.factor(class)[keepN])
         K <- length(levels(droplevels(class)))
         pchCol <- classCol[class]

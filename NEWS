@@ -1,3 +1,11 @@
+CMScaller v0.99.2
+================
+* Ensembl gene ids used as default
+* genome annotations are updated to (GENCODE)[https://www.gencodegenes.org/] v26/genome build GRCh38.p10
+* MSigDB are updated to v6.2, reactome download date 2018-Sep-21
+* default heatmap colors changed to less intense palette
+
+
 CMScaller v0.99.1
 ================
 Scientific Reports publication
