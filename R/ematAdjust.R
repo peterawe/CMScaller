@@ -30,7 +30,7 @@
 #' @seealso \code{\link[base]{scale}}, \code{\link[limma]{voom}},
 #' \code{\link[limma]{normalizeBetweenArrays}}
 #' @examples
-#' emat <- ematAdjust(crcTCGAsubset[1:100,], "quantile")
+#' emat <- ematAdjust(crcTCGAsubset[1:100,], normMethod = "quantile")
 #' mean(Biobase::exprs(crcTCGAsubset))    # E[>2]
 #' mean(emat,na.rm=TRUE)             # E[~0]
 #' stats::sd(emat,na.rm=TRUE)        # E[~1]
