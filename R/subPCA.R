@@ -45,10 +45,10 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
             class <- droplevels(as.factor(class)[keepN])
             K <- length(levels(droplevels(class)))
             pchCol <- classCol[class]
-            pchCol[is.na(pchCol)] <- gray(.5)
+            pchCol[is.na(pchCol)] <- grDevices::gray(.5)
         } else {
             ## mapping continous class to color gradient
-            classCol <- paste0(colorRampPalette(c(classCol[2], # blue
+            classCol <- paste0(grDevices::colorRampPalette(c(classCol[2],# blue
                                                   classCol[1], # orange
                                                   classCol[5]) # reddish
                                                 )(36), "DD")
@@ -83,7 +83,7 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
     if(is.numeric(class) & legend!="none") {
         xx <- line2user(c(2,3), side=2)
         yy <- line2user(c(1,3.5), side=1)
-        rasterImage(as.raster(matrix(rev(classCol), ncol=1)), xpd=TRUE,
+        graphics::rasterImage(grDevices::as.raster(matrix(rev(classCol), ncol=1)), xpd=TRUE,
                 xleft=xx[1],
                 xright=xx[2],
                 ytop=yy[1],
@@ -123,7 +123,7 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
         graphics::points(pscores[highl,1],pscores[highl,2],
                         pch=23, cex=cex.fac,
                         bg=paste0(classCol[classConfusion[highl]], "3F"))
-        graphics::legend("bottomright",  pch=23, pt.bg="gray", cex =.75,
+        graphics::legend("bottomright",  pch=23, pt.bg=grDevices::gray(.5), cex =.75,
                         legend="discordance")
     }
     invisible(pemat)
