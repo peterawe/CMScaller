@@ -39,12 +39,25 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
 
     # prepare input data
     if (!is.null(class)) {
-        non.empty.level <- table(class[keepN], useNA="ifany")>0
-        classCol <- classCol[which(non.empty.level)]
-        class <- droplevels(as.factor(class)[keepN])
-        K <- length(levels(droplevels(class)))
-        pchCol <- classCol[class]
-        pchCol[is.na(pchCol)] <- "#000000"
+        if(!is.numeric(class)) {
+            non.empty.level <- table(class[keepN], useNA="ifany")>0
+            classCol <- classCol[which(non.empty.level)]
+            class <- droplevels(as.factor(class)[keepN])
+            K <- length(levels(droplevels(class)))
+            pchCol <- classCol[class]
+            pchCol[is.na(pchCol)] <- gray(.5)
+        } else {
+            ## mapping continous class to color gradient
+            classCol <- paste0(colorRampPalette(c(classCol[2], # blue
+                                                  classCol[1], # orange
+                                                  classCol[5]) # reddish
+                                                )(36), "DD")
+            pchCol <- classCol[cut(class, breaks=length(classCol)-1,
+                                   include.lowestb=TRUE)]
+            pchCol[is.na(pchCol)] <- "#000000"
+            pchCol <- pchCol[keepN]
+
+        }
     } else {pchCol="#000000"}
 
     emat <- emat[,keepN]
@@ -64,8 +77,24 @@ subPCA <- function(emat, class = NULL, keepN = TRUE,
     # plot
     if (labelSamp==FALSE) {
     graphics::plot(pscores, col = pchCol, ...,
-        xlab = paste0("PC", dim[1], " ", percVar[dim[1]],"%"),
-        ylab = paste0("PC", dim[2], " ", percVar[dim[2]],"%"))
+        xlab = bquote("PC"*.(dim[1])^degree~(.(paste(percVar[dim[1]]))*"%")),
+        ylab = bquote("PC"*.(dim[2])^degree~(.(paste(percVar[dim[2]]))*"%")))
+
+    if(is.numeric(class) & legend!="none") {
+        xx <- line2user(c(2,3), side=2)
+        yy <- line2user(c(1,3.5), side=1)
+        rasterImage(as.raster(matrix(rev(classCol), ncol=1)), xpd=TRUE,
+                xleft=xx[1],
+                xright=xx[2],
+                ytop=yy[1],
+                ybottom=yy[2])
+        graphics::text(mean(xx),y=rev(yy),signif(range(class),2),
+            pos=c(1,3), xpd=TRUE, cex=.75)
+        graphics::text(max(xx),y=mean(yy), "\nscale", srt=90, xpd=TRUE, cex=.75)
+        legend="none"
+
+    }
+
     } else {
     graphics::plot(pscores, col = 0, pch = 16, ...,
         xlim = range(pscores[,1])*1.1, ylim =range(pscores[,2])*1.1,

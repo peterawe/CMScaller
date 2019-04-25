@@ -34,7 +34,7 @@
 #' mean(Biobase::exprs(crcTCGAsubset))    # E[>2]
 #' mean(emat,na.rm=TRUE)             # E[~0]
 #' stats::sd(emat,na.rm=TRUE)        # E[~1]
-ematAdjust <- function(emat, center = NULL, scale = NULL, normMethod = NULL,
+ematAdjust <- function(emat, center = TRUE, scale = TRUE, normMethod = NULL,
                        signalFilt = 0, verbose = getOption("verbose"), ...)
     {
 
@@ -68,11 +68,11 @@ ematAdjust <- function(emat, center = NULL, scale = NULL, normMethod = NULL,
     }
 
     # standarize
-    if (!is.null(center) & !is.null(scale)) {
+    if (is.numeric(center) & is.numeric(scale)) {
         emat <- t(scale(t(emat),
                     center = center[!filterLow], scale = scale[!filterLow]))
     } else {
-        emat <- t(scale(t(emat), scale=TRUE, center=TRUE))
+        emat <- t(scale(t(emat), scale=scale, center=center))
     }
 
     P.out <- nrow(emat)
