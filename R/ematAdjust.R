@@ -63,17 +63,14 @@ ematAdjust <- function(emat, center = TRUE, scale = TRUE, normMethod = NULL,
         signal.filter <- stats::quantile(emat, signalFilt, na.rm = TRUE)
         filterLow <- apply(emat,1, max, na.rm = TRUE) < signal.filter
         emat <- emat[!filterLow,]
+        if (length(center) > 1) center <- center[!filterLow]
+        if (length(scale) > 1) center <- scale[!filterLow]
     } else {
         filterLow=FALSE
     }
 
-    # standarize
-    if (is.numeric(center) & is.numeric(scale)) {
-        emat <- t(scale(t(emat),
-                    center = center[!filterLow], scale = scale[!filterLow]))
-    } else {
-        emat <- t(scale(t(emat), scale=scale, center=center))
-    }
+    # standardize
+    emat <- t(scale(t(emat), scale=scale, center=center))
 
     P.out <- nrow(emat)
     isnorm <- NULL
