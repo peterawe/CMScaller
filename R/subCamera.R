@@ -292,9 +292,9 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
         bb <- length(breaks)
 
         graphics::rect(
-            xleft = seq(xx[ 1],xx[3],length.out = bb)[-bb+1],
-            xright = seq(xx[1],xx[3],length.out = bb)[-1],
-            ybottom=yy[2],ytop=yy[3],col=heatCol, border = NA, xpd=TRUE)
+            xleft = seq(xx[1], xx[3], length.out=bb)[-bb],
+            xright = seq(xx[1], xx[3], length.out=bb)[-1],
+            ybottom = yy[2], ytop=yy[3], col=heatCol, border=NA, xpd=TRUE)
 
         textfun(xx, (yy[2]+yy[3])/2, c(pMax,0,pMax), pos=1, cex.text=.75)
         textfun(xx[-2], yy[3], c("dn", "up"), pos=c(2,4), cex.text=.75)
