@@ -15,9 +15,9 @@
 #' @param doPairwise a logical, whether pairwise comparison are to be
 #' performed (as opposed to class k against K-k).
 #' @param doPlot a logical, not implemented.
-#' @param returnTreat logical
-#' @param lfc numeric
-#' @param padj numeric
+#' @param returnTreat logical, if true, parameters lfc and padj are passed to \code{\link[limma]{topTreat}}, else \code{\link[limma]{eBayes}} are used and results sorted as indicated by sortBy parameter.
+#' @param lfc numeric, only applicable if returnTreat=TRUE, if FALSE, all genes are returned
+#' @param padj numeric, only applicable if returnTreat=TRUE, if FALSE, all genes are returned
 #' @param doVoom a logical, indicating whether emat is sequencing count data.
 #' @param normMethod a character, only used if doVoom=TRUE and passed to
 #' @param ... additional arguments passed to \code{\link[edgeR]{calcNormFactors}}
