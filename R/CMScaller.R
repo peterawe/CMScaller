@@ -43,7 +43,7 @@
 #' head(res)
 #' hist(res$p.value)
 CMScaller <- function(emat, templates=CMScaller::templates.CMS,
-                    rowNames="ensg",
+                    rowNames="entrez",
                     RNAseq=FALSE, nPerm=1000, seed=NULL,
                     FDR=0.05, doPlot=TRUE, verbose=TRUE) {
 
@@ -60,10 +60,10 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
     if (ncol(emat) < 30) warnings("few samples - high prediction variance",
                                 call.=FALSE)
 
-    if (rowNames != "ensg") {
-        if (!rowNames %in% c("symbol", "entrez"))
+    if (rowNames != "entrez") {
+        if (!rowNames %in% c("symbol", "ensg"))
             stop("invalid rowNames, must be either entrez, symbol or ensg")
-            emat <- replaceGeneId(emat, id.in=rowNames, id.out="ensg")
+            emat <- replaceGeneId(emat, id.in=rowNames, id.out="entrez")
     }
 
     # log2-transform and quantile normalize RNA-seq data
