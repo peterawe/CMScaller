@@ -29,7 +29,7 @@
 #' Protocols 4, 1184-1191.
 #' @examples
 #'  library(Biobase)
-#'  fromTo(rownames(crcTCGAsubset)[1:50], "ensg", "symbol")
+#'  fromTo(rownames(crcTCGAsubset)[1:50], "entrez", "symbol")
 #'  # colnames indicate valid keys
 #'  # example: AKT3 symbol has one valid Entrez mapping but two different ENSG
 #'  anno.orgHs[anno.orgHs$symbol == "AKT3",]
