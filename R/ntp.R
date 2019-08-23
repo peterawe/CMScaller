@@ -77,7 +77,8 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
     # checkInput ##############################################################
 
     # emat tests
-    if (class(emat) == "ExpressionSet") emat <- Biobase::exprs(emat)
+    if (class(emat) == "ExpressionSet")
+        emat <- suppressPackageStartupMessages(Biobase::exprs(emat))
     if (is.data.frame(emat) | is.vector(emat)) emat <- as.matrix(emat)
     if (is.null(rownames(emat))) stop("missing emat rownames, check input")
 
@@ -184,7 +185,7 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
         n.sim <- as.vector(simFun(emat[mm,n, drop = FALSE],tmat))
 
         # optimized for speed not readability
-        # apply(replicate... makes permuted matrix
+        # matrix(emat[,n][sample.int... makes permuted matrix
         # apply(simFun... calculates correlation and return max value
 
         n.sim.perm.max <- apply(simFun(
