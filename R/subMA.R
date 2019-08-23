@@ -51,8 +51,8 @@ subMA <- function(deg, geneID = "rownames",
                 graphics::plot(x, y, xlim=xRange, col="gray", cex=.5,
                                main=main, xlab=xlab, ylab=ylab)
             } else {
-                graphics::smoothScatter(x, y, xlim=xRange, nrpoints=0,
-                            main=main, xlab=xlab, ylab=ylab)
+                #graphics::smoothScatter(x, y, xlim=xRange, nrpoints=0,
+                #            main=main, xlab=xlab, ylab=ylab)
             }
         }
         graphics::abline(h=0)
