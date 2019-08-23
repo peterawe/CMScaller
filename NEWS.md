@@ -9,7 +9,7 @@
 
 ## Features
 
-# * `plotPC` provides 2d visualization of PCA loadings
+* `plotPC` provides 2d visualization of PCA loadings
 
 ## Bug fixes
 
