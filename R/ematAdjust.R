@@ -30,6 +30,7 @@
 #' @seealso \code{\link[base]{scale}}, \code{\link[limma]{voom}},
 #' \code{\link[limma]{normalizeBetweenArrays}}
 #' @examples
+#' library(Biobase)
 #' emat <- ematAdjust(crcTCGAsubset[1:100,], normMethod = "quantile")
 #' mean(Biobase::exprs(crcTCGAsubset))    # E[>2]
 #' mean(emat,na.rm=TRUE)             # E[~0]
@@ -40,7 +41,7 @@ ematAdjust <- function(emat, center = TRUE, scale = TRUE, normMethod = NULL,
 
     # checkInput ##############################################################
     if (is.data.frame(emat)) emat <- as.matrix(emat)
-    if (class(emat) == "ExpressionSet") emat <- Biobase::exprs(emat)
+    if (class(emat)[1] == "ExpressionSet") emat <- Biobase::exprs(emat)
     if (!is.null(normMethod)) {
         if (normMethod %in% subData$methods.voom) {
             emat <- limma::normalizeBetweenArrays(log2(emat+.25),

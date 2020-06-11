@@ -81,7 +81,7 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
     # checkInput ##############################################################
 
     fallback.xKey <- NULL
-    if (class(emat) == "ExpressionSet") {
+    if (class(emat)[1] == "ExpressionSet") {
         fallback.xKey <- suppressPackageStartupMessages(Biobase::fData(emat))
         emat <- Biobase::exprs(emat)
     }
@@ -169,8 +169,6 @@ subCamera <- function(emat, class, keepN = TRUE, batch = NULL,
         colnames(design) <- gsub("group", "", colnames(design))
 
         if (doVoom == TRUE) emat <- voomTransform(emat, normMethod, design)
-        fit <- limma::lmFit(emat, design)
-        fit2 <- limma::eBayes(fit)
         mm <- levels(df$group)
 
         # performCamera #######################################################

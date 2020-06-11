@@ -47,7 +47,7 @@ subDEG <- function(emat, class, batch=NULL, keepN=TRUE, doPairwise = FALSE,
     #  test/fix/clean input
     ###########################################################################
 
-    if (class(emat) == "ExpressionSet") {
+    if (class(emat)[1] == "ExpressionSet") {
         if (is.null(feat)) feat <- Biobase::fData(emat)
         emat <- Biobase::exprs(emat)
     }
