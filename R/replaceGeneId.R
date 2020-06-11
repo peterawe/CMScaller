@@ -33,10 +33,10 @@
 #' # matrix values are not changed
 #' all(x.entrez == x.entrez2)
 replaceGeneId <- function(emat, id.in="symbol", id.out="entrez") {
-    if (class(emat) == "ExpressionSet") {
+    if (class(emat)[1] == "ExpressionSet") {
         emat <- suppressPackageStartupMessages(Biobase::exprs(emat))
     }
-    if (class(emat) == "data.frame") emat <- as.matrix(emat)
+    if (class(emat)[1] == "data.frame") emat <- as.matrix(emat)
     if (is.vector(emat)) emat <- matrix(emat, dimnames = list())
     if (is.null(rownames(emat))) stop("missing rownames(emat)")
     row.sd <- apply(emat, 1, stats::sd, na.rm=TRUE)
@@ -50,8 +50,10 @@ replaceGeneId <- function(emat, id.in="symbol", id.out="entrez") {
                         " rownames [id.number] (translation gives duplicates)"))
 
     # ordering by row.sd -> most informative probe are not padded with number
+    key.out[is.na(key.out)] <- "NA"
     key.out <- make.unique(key.out[order(row.sd, decreasing = TRUE)])
     key.out <- key.out[match(key.in, key.in[order(row.sd, decreasing = TRUE)])]
+    key.out <- make.unique(key.out)
     rownames(emat) <- key.out
     return(emat)
 }

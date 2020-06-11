@@ -50,10 +50,10 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
     # checkInput ##############################################################
 
     # check datatype input and try to coerce to matrix
-    if (class(emat) == "ExpressionSet") {
+    if (class(emat)[1] == "ExpressionSet") {
         emat <- suppressPackageStartupMessages(Biobase::exprs(emat))
     }
-    if (class(emat) == "data.frame") emat <- as.matrix(emat)
+    if (class(emat)[1] == "data.frame") emat <- as.matrix(emat)
     if (is.vector(emat)) emat <- matrix(emat, dimnames = list())
     if (is.null(rownames(emat))) stop("missing Ensembl id rownames(emat)")
 
