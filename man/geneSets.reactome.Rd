@@ -4,7 +4,9 @@
 \name{geneSets.reactome}
 \alias{geneSets.reactome}
 \title{gene sets for exploratory gene set analysis}
-\format{An object of class \code{list} of length 1726.}
+\format{
+An object of class \code{list} of length 2247.
+}
 \usage{
 geneSets.reactome
 }
@@ -12,7 +14,7 @@ geneSets.reactome
 gene sets for exploratory gene set analysis
 }
 \details{
-Gene sets from Reactome (Oct-2017) with Ensembl gene identifiers.
+Gene sets from Reactome (Aug-2019) with Entrez gene identifiers.
 }
 \examples{
 head(names(geneSets.reactome))

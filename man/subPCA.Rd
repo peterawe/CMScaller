@@ -4,10 +4,19 @@
 \alias{subPCA}
 \title{PCA plot with class labels.}
 \usage{
-subPCA(emat, class = NULL, keepN = TRUE, nGenes = 1000,
-  normMethod = NULL, dim = c(1, 2), labelSamp = FALSE,
-  legend = "topright", classConfusion = NULL,
-  classCol = getOption("subClassCol"), ...)
+subPCA(
+  emat,
+  class = NULL,
+  keepN = TRUE,
+  nGenes = 1000,
+  normMethod = NULL,
+  dim = c(1, 2),
+  labelSamp = FALSE,
+  legend = "topright",
+  classConfusion = NULL,
+  classCol = getOption("subClassCol"),
+  ...
+)
 }
 \arguments{
 \item{emat}{numeric matrix with row features and sample columns.}

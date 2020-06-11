@@ -4,7 +4,7 @@
 #' (\url{http://gdac.broadinstitute.org/}). Samples were annotated with
 #' Consensus Molecular Subtypes (Guinney 2015), Sadanandam subtypes
 #' (Isella 2015) and ABSOLUTE estimated tumor purity (Aran 2015). Features were
-#' annotated using \code{\link[CMScaller]{fromTo}}. Rownames are Ensembl ids.
+#' annotated using \code{\link[CMScaller]{fromTo}}. Rownames are Entrez ids.
 #' Included are 92 HiSeq test set samples with genes with maximum count
 #' exceeding 25.
 #' @references Aran D, Sirota M, Butte AJ. Systematic pan-cancer analysis of tumour purity. Nat Commun. 2015;6:8971.
@@ -20,7 +20,7 @@
 #' @details Colorectal cancer Consensus Molecular Subtypes (CMS) prediction
 #' templates for \code{\link[CMScaller]{ntp}}. Marker genes were
 #' identified using TCGA RNA-sequencing data. \code{templates$probe} refers to
-#' Ensembl ids.
+#' Entrez ids.
 #' @references Guinney J, Dienstmann R, Wang X, de Reynies A, Schlicker A, Soneson C, et al. The consensus molecular subtypes of colorectal cancer. Nat Med [Internet]. 2015 [cited 2015 Nov 5];advance online publication. Available from: \url{http://www.nature.com/nm/journal/vaop/ncurrent/full/nm.3967.html}
 #' @references Hoshida Y. Nearest Template Prediction: A Single-Sample-Based Flexible Class Prediction with Confidence Assessment. PLoS ONE. 2010;5:e15543.
 #' @examples
@@ -32,7 +32,7 @@
 #' @details Colorectal cancer Consensus Molecular Subtypes (CMS) prediction
 #' templates for \code{\link[CMScaller]{ntp}}. Marker genes were
 #' identified using TCGA RNA-sequencing data. \code{templates$probe} refers to
-#' Ensembl ids. Compared to \code{\link{templates.CMS}} this was prepared using
+#' Entrez ids. Compared to \code{\link{templates.CMS}} this was prepared using
 #' additional filters steps to further clean genes also expressed by
 #' non-carcinoma cell types. Predictions are usually highly concordant with
 #' \code{\link{templates.CMS}}. Under development.
@@ -56,7 +56,7 @@
 #' micro-satellite instability templates
 #' @details micro-satellite instability (MSI) prediction templates for
 #' \code{\link[CMScaller]{ntp}}. Marker genes were identified using TCGA
-#' RNA-sequencing data. \code{templates$probe} refers to Ensembl ids.
+#' RNA-sequencing data. \code{templates$probe} refers to Entrez ids.
 #' @examples
 #' head(templates.MSI)
 #' table(templates.MSI$class)
@@ -86,23 +86,16 @@
 "anno.orgHs"
 
 #' gene sets for exploratory gene set analysis
-#' @details Gene sets from Reactome (Oct-2017) with Ensembl gene identifiers.
+#' @details Gene sets from Reactome (Aug-2019) with Entrez gene identifiers.
 #' @references Croft D, Mundo AF, Haw R, Milacic M, Weiser J, Wu G, et al. The Reactome pathway knowledgebase. Nucl Acids Res. 2014;42:D472-7.
 #' @examples
 #' head(names(geneSets.reactome))
 "geneSets.reactome"
 
-#' gene sets for exploratory gene set analysis
-#' @details Gene sets from MSigDB (v6.2) with ensembl gene identifiers.
-#' @examples
-#' head(names(geneSets.C2))
-"geneSets.C2"
-
-
 #' gene sets relevant to Consensus Molecular Subtypes
-#' @description Geneset is a named list of Ensembl idds. Watanabe CRC MSS/MSI,
+#' @description Geneset is a named list of Entrez idds. Watanabe CRC MSS/MSI,
 #' Liu CDX2, Lucas HNF4A, and Servitja HNF1A were retrieved from MutSigDB C2
-#' (v6.2). Gastro-Intestinal enriched genes are from the \href{http://www.proteinatlas.org/humanproteome/gastrointestinal+tract}{Human Protein Atlas}
+#' (v7.0). Gastro-Intestinal enriched genes are from the \href{http://www.proteinatlas.org/humanproteome/gastrointestinal+tract}{Human Protein Atlas}
 #' Extracellular Matrix mCRC is from Naba Additional Data 2.
 #' Crypt signatures are based on Merlos-Suarez Supplementary Table 5.
 #' MYB signature is based on Thorner Supplementary Table 2.
@@ -112,7 +105,7 @@
 #' CTNNB1/Beta-catenin signature is based on Watanabe Supplementary Table 1.
 #' WNT signatures are based on Vermeulen Supplementary Table S1.
 #' Retionic acid signatures are based on Duffy Supplementary Table 2.
-#' Remaining are either from MutSigDB Hallmarks (v6.2) or Reactome (Dec-2016).
+#' Remaining are either from MutSigDB Hallmarks (v7.0) or Reactome (Aug-2019).
 #' @references Croft D, Mundo AF, Haw R, Milacic M, Weiser J, Wu G, et al. The Reactome pathway knowledgebase. Nucl Acids Res. 2014;42:D472-7.
 #' @references Duffy DJ, Krstic A, Halasz M, Schwarzl T, Konietzny A, Iljin K, et al. Retinoic acid and TGF-beta signalling cooperate to overcome MYCN-induced retinoid resistance. Genome Medicine. 2017;9:15.
 #' @references Fessler E, Drost J, Hooff SR van, Linnekamp JF, Wang X, Jansen M, et al. TGF-beta signaling directs serrated adenomas to the mesenchymal colorectal cancer subtype. EMBO Molecular Medicine. 2016;8:745-60.
@@ -131,23 +124,23 @@
 "geneSets.CRC"
 
 #' gene sets relevant to Consensus Molecular Subtypes
-#' @description Geneset is a named list of Ensembl ids and is a subset of \code{\link{geneSets.CRC}}.
+#' @description Geneset is a named list of Entrez ids and is a subset of \code{\link{geneSets.CRC}}.
 #' \itemize{
-#' \item{MSI (Watanabe) from \href{http://software.broadinstitute.org/gsea/msigdb}{MutSigDB} C2 (v6.2)}
-#' \item{DNA repair from MutSigDB Hallmark (v6.2)}
-#' \item{HNF4A (Lucas) from MutSigDB C2 (v6.2)}
-#' \item{MSS (Watanabe) from MutSigDB C2 (v6.2)}
-#' \item{MYC from MutSigDB Hallmark (v6.2)}
+#' \item{MSI (Watanabe) from \href{http://software.broadinstitute.org/gsea/msigdb}{MutSigDB} C2 (v7.0)}
+#' \item{DNA repair from MutSigDB Hallmark (v7.0)}
+#' \item{HNF4A (Lucas) from MutSigDB C2 (v7.0)}
+#' \item{MSS (Watanabe) from MutSigDB C2 (v7.0)}
+#' \item{MYC from MutSigDB Hallmark (v7.0)}
 #' \item{WNT signature based on Vermeulen Supplementary Table S1}
-#' \item{cell cycle (E2F targets) from MutSigDB Hallmark (v6.2)}
+#' \item{cell cycle (E2F targets) from MutSigDB Hallmark (v7.0)}
 #' \item{differentiation (gastro-intestinal markers) from
 #' \href{http://www.proteinatlas.org/humanproteome/gastrointestinal+tract}{Human Protein Atlas}.}
-#' \item{glycolysis from MutSigDB Hallmark (v6.2)}
-#' \item{fatty acids from \href{http://www.reactome.org/}{reactome} (accessed 20180921)}
-#' \item{CDX2 (Liu) from MutSigDB C2 (v6.2)}
+#' \item{glycolysis from MutSigDB Hallmark (v7.0)}
+#' \item{fatty acids from \href{http://www.reactome.org/}{reactome} (accessed 20190822)}
+#' \item{CDX2 (Liu) from MutSigDB C2 (v7.0)}
 #' \item{LGR5 stem cells Merlos-Suarez Supplementary Table 5}
 #' \item{TGF-beta signature based on Fessler GEO \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE79461}{GSE79461}}
-#' \item{EMT (epithelial-mesenchymal transition)from MutSigDB Hallmark (v6.2)}
+#' \item{EMT (epithelial-mesenchymal transition)from MutSigDB Hallmark (v7.0)}
 #' }
 #' @references Croft D, Mundo AF, Haw R, Milacic M, Weiser J, Wu G, et al. The Reactome pathway knowledgebase. Nucl Acids Res. 2014;42:D472-7.
 #' @references Fessler E, Drost J, Hooff SR van, Linnekamp JF, Wang X, Jansen M, et al. TGF-beta signaling directs serrated adenomas to the mesenchymal colorectal cancer subtype. EMBO Molecular Medicine. 2016;8:745-60.

@@ -4,7 +4,9 @@
 \name{templates.CRIS}
 \alias{templates.CRIS}
 \title{CRC intrinsic subtypes (CRIS) templates}
-\format{An object of class \code{data.frame} with 565 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 565 rows and 3 columns.
+}
 \usage{
 templates.CRIS
 }

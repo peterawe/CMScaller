@@ -4,9 +4,17 @@
 \alias{CMScaller}
 \title{CMS classification}
 \usage{
-CMScaller(emat, templates = CMScaller::templates.CMS,
-  rowNames = "ensg", RNAseq = FALSE, nPerm = 1000, seed = NULL,
-  FDR = 0.05, doPlot = TRUE, verbose = TRUE)
+CMScaller(
+  emat,
+  templates = CMScaller::templates.CMS,
+  rowNames = "entrez",
+  RNAseq = FALSE,
+  nPerm = 1000,
+  seed = NULL,
+  FDR = 0.05,
+  doPlot = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{emat}{a numeric expression matrix with sample columns, gene rows and

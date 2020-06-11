@@ -4,10 +4,20 @@
 \alias{subMDS}
 \title{MDS plot with class labels}
 \usage{
-subMDS(emat, class = NULL, keepN = TRUE, nGenes = 1000,
-  normMethod = NULL, dim = c(1, 2), labelSamp = FALSE,
-  labelCenters = TRUE, classConfusion = NULL, legend = "bottomleft",
-  classCol = getOption("subClassCol"), ...)
+subMDS(
+  emat,
+  class = NULL,
+  keepN = TRUE,
+  nGenes = 1000,
+  normMethod = NULL,
+  dim = c(1, 2),
+  labelSamp = FALSE,
+  labelCenters = TRUE,
+  classConfusion = NULL,
+  legend = "bottomleft",
+  classCol = getOption("subClassCol"),
+  ...
+)
 }
 \arguments{
 \item{emat}{a numeric matrix with row features and sample columns.}

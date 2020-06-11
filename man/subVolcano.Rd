@@ -4,9 +4,17 @@
 \alias{subVolcano}
 \title{volcano plot}
 \usage{
-subVolcano(deg, geneID = "rownames", lfc = log2(2), padj = 0.05,
-  ave = 0, topN = 10, cexText = 1, classCol = getOption("subClassCol"),
-  ...)
+subVolcano(
+  deg,
+  geneID = "rownames",
+  lfc = log2(2),
+  padj = 0.05,
+  ave = 0,
+  topN = 10,
+  cexText = 1,
+  classCol = getOption("subClassCol"),
+  ...
+)
 }
 \arguments{
 \item{deg}{output from \code{\link{subDEG}} which may be either a list or

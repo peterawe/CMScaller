@@ -4,7 +4,9 @@
 \name{anno.orgHs}
 \alias{anno.orgHs}
 \title{annotation for translating between gene identifiers}
-\format{An object of class \code{data.frame} with 58219 rows and 7 columns.}
+\format{
+An object of class \code{data.frame} with 58219 rows and 7 columns.
+}
 \usage{
 anno.orgHs
 }

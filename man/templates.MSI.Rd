@@ -4,7 +4,9 @@
 \name{templates.MSI}
 \alias{templates.MSI}
 \title{micro-satellite instability templates}
-\format{An object of class \code{data.frame} with 100 rows and 3 columns.}
+\format{
+An object of class \code{data.frame} with 100 rows and 3 columns.
+}
 \usage{
 templates.MSI
 }

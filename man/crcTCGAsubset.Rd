@@ -4,7 +4,9 @@
 \name{crcTCGAsubset}
 \alias{crcTCGAsubset}
 \title{colorectal TCGA gene expression data with subtype annotation}
-\format{An object of class \code{ExpressionSet} with 16949 rows and 92 columns.}
+\format{
+An object of class \code{ExpressionSet} with 16863 rows and 92 columns.
+}
 \usage{
 crcTCGAsubset
 }
@@ -14,7 +16,7 @@ from Broad GDAC Firehose, doi:10.7908/C11G0KM9
 (\url{http://gdac.broadinstitute.org/}). Samples were annotated with
 Consensus Molecular Subtypes (Guinney 2015), Sadanandam subtypes
 (Isella 2015) and ABSOLUTE estimated tumor purity (Aran 2015). Features were
-annotated using \code{\link[CMScaller]{fromTo}}. Rownames are Ensembl ids.
+annotated using \code{\link[CMScaller]{fromTo}}. Rownames are Entrez ids.
 Included are 92 HiSeq test set samples with genes with maximum count
 exceeding 25.
 }

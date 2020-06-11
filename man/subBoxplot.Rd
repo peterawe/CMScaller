@@ -4,9 +4,17 @@
 \alias{subBoxplot}
 \title{boxplot with data points}
 \usage{
-subBoxplot(y, x, labels = NULL, keepN = TRUE,
-  classCol = getOption("subClassCol"), points = FALSE, width = 20,
-  showOutliers = FALSE, ...)
+subBoxplot(
+  y,
+  x,
+  labels = NULL,
+  keepN = TRUE,
+  classCol = getOption("subClassCol"),
+  points = FALSE,
+  width = 20,
+  showOutliers = FALSE,
+  ...
+)
 }
 \arguments{
 \item{y}{a numeric vector.}

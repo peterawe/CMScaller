@@ -4,8 +4,17 @@
 \alias{subMA}
 \title{MA plot}
 \usage{
-subMA(deg, geneID = "rownames", lfc = log2(2), padj = 0.01, ave = 1,
-  topN = 10, cexText = 1, classCol = getOption("subClassCol"), ...)
+subMA(
+  deg,
+  geneID = "rownames",
+  lfc = log2(2),
+  padj = 0.01,
+  ave = 1,
+  topN = 10,
+  cexText = 1,
+  classCol = getOption("subClassCol"),
+  ...
+)
 }
 \arguments{
 \item{deg}{output from \link{subDEG} which may be either a list or

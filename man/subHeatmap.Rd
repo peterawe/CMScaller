@@ -4,8 +4,16 @@
 \alias{subHeatmap}
 \title{ntp heatmap}
 \usage{
-subHeatmap(emat, res, templates, keepN = TRUE, labRow = NULL,
-  classCol = getOption("subClassCol"), heatCol = NULL, ...)
+subHeatmap(
+  emat,
+  res,
+  templates,
+  keepN = TRUE,
+  labRow = NULL,
+  classCol = getOption("subClassCol"),
+  heatCol = NULL,
+  ...
+)
 }
 \arguments{
 \item{emat}{a numeric matrix with row features and sample columns.}

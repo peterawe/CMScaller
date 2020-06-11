@@ -4,28 +4,30 @@
 \name{geneSets.CMS}
 \alias{geneSets.CMS}
 \title{gene sets relevant to Consensus Molecular Subtypes}
-\format{An object of class \code{list} of length 14.}
+\format{
+An object of class \code{list} of length 14.
+}
 \usage{
 geneSets.CMS
 }
 \description{
 Geneset is a named list of Entrez ids and is a subset of \code{\link{geneSets.CRC}}.
 \itemize{
-\item{MSI (Watanabe) from \href{http://software.broadinstitute.org/gsea/msigdb}{MutSigDB} C2 (v5.2)}
-\item{DNA repair from MutSigDB Hallmark (v5.2)}
-\item{HNF4A (Lucas) from MutSigDB C2 (v5.2)}
-\item{MSS (Watanabe) from MutSigDB C2 (v5.2)}
-\item{MYC from MutSigDB Hallmark (v5.2)}
+\item{MSI (Watanabe) from \href{http://software.broadinstitute.org/gsea/msigdb}{MutSigDB} C2 (v7.0)}
+\item{DNA repair from MutSigDB Hallmark (v7.0)}
+\item{HNF4A (Lucas) from MutSigDB C2 (v7.0)}
+\item{MSS (Watanabe) from MutSigDB C2 (v7.0)}
+\item{MYC from MutSigDB Hallmark (v7.0)}
 \item{WNT signature based on Vermeulen Supplementary Table S1}
-\item{cell cycle (E2F targets) from MutSigDB Hallmark (v5.2)}
+\item{cell cycle (E2F targets) from MutSigDB Hallmark (v7.0)}
 \item{differentiation (gastro-intestinal markers) from
 \href{http://www.proteinatlas.org/humanproteome/gastrointestinal+tract}{Human Protein Atlas}.}
-\item{glycolysis from MutSigDB Hallmark (v5.2)}
-\item{fatty acids from \href{http://www.reactome.org/}{reactome} (accessed 20161212)}
-\item{CDX2 (Liu) from MutSigDB C2 (v5.2)}
+\item{glycolysis from MutSigDB Hallmark (v7.0)}
+\item{fatty acids from \href{http://www.reactome.org/}{reactome} (accessed 20190822)}
+\item{CDX2 (Liu) from MutSigDB C2 (v7.0)}
 \item{LGR5 stem cells Merlos-Suarez Supplementary Table 5}
 \item{TGF-beta signature based on Fessler GEO \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE79461}{GSE79461}}
-\item{EMT (epithelial-mesenchymal transition)from MutSigDB Hallmark (v5.2)}
+\item{EMT (epithelial-mesenchymal transition)from MutSigDB Hallmark (v7.0)}
 }
 }
 \examples{

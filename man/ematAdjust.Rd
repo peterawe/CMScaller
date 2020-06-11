@@ -4,8 +4,15 @@
 \alias{ematAdjust}
 \title{matrix row-wise scaling and centering}
 \usage{
-ematAdjust(emat, center = NULL, scale = NULL, normMethod = NULL,
-  signalFilt = 0, verbose = getOption("verbose"), ...)
+ematAdjust(
+  emat,
+  center = TRUE,
+  scale = TRUE,
+  normMethod = NULL,
+  signalFilt = 0,
+  verbose = getOption("verbose"),
+  ...
+)
 }
 \arguments{
 \item{emat}{a numeric matrix with row features and sample columns.}
@@ -47,7 +54,8 @@ deviations from prior (identically processed) datasets. If \emph{e.g.}
 percentile are discarded.
 }
 \examples{
-emat <- ematAdjust(crcTCGAsubset[1:100,], "quantile")
+library(Biobase)
+emat <- ematAdjust(crcTCGAsubset[1:100,], normMethod = "quantile")
 mean(Biobase::exprs(crcTCGAsubset))    # E[>2]
 mean(emat,na.rm=TRUE)             # E[~0]
 stats::sd(emat,na.rm=TRUE)        # E[~1]

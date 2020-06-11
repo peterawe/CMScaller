@@ -1,8 +1,8 @@
-# 0.99.2 
+# 0.99.2
 
 ## Changes
 
-* genome annotations updated to [GENCODE](https://www.gencodegenes.org/) v26/genome build GRCh38.p10
+* genome annotations updated to [GENCODE](https://www.gencodegenes.org/) v26/genome build GRCh38.p10 (now reported as startup message)
 * geneSets updated: [MSigDB](http://software.broadinstitute.org/gsea/index.jsp) to v7.0 and [reactome](https://reactome.org/) to download date 2019-Aug-22
 * default heatmap colors changed to be less intrusive
 * default qualitative color palette changed to [Okabe & Ito's Color Universal Design](http://jfly.iam.u-tokyo.ac.jp/color/)
@@ -13,13 +13,13 @@
 
 ## Bug fixes
 
-* `subCamera` p-value legend lacked the color representing the highest value [SH Moosavi]
+* `subCamera` p-value legend lacked the color representing the highest value [reported by SH Moosavi]
 
-## notes
+## Notes
 
-* [R 3.6.0 implemented a bug fix to `sample` which may break p-value reproducibility with older versions](https://cran.r-project.org/doc/manuals/r-release/NEWS.html)
+* [R 3.6.0 fixed a bug in `sample()`. Fix may break p-value reproducibility for older versions](https://cran.r-project.org/doc/manuals/r-release/NEWS.html)
 
-# 0.99.1 
+# 0.99.1 (2019-August)
 
 *Scientific Reports* publication
 

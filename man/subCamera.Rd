@@ -4,12 +4,28 @@
 \alias{subCamera}
 \title{limma/voom camera gene set analysis visualization}
 \usage{
-subCamera(emat, class, keepN = TRUE, batch = NULL, geneList = NULL,
-  xKey = NULL, pValue = 0.01, topN = 15, allowNegCor = FALSE,
-  interGeneCor = 0.01, doPlot = TRUE, doVoom = FALSE,
-  normMethod = "quantile", pMax = 10, rowCluster = TRUE,
-  classCol = getOption("subClassCol"), heatCol = NULL, cexText = 1,
-  legendAdd = TRUE, ...)
+subCamera(
+  emat,
+  class,
+  keepN = TRUE,
+  batch = NULL,
+  geneList = NULL,
+  xKey = NULL,
+  pValue = 0.01,
+  topN = 15,
+  allowNegCor = FALSE,
+  interGeneCor = 0.01,
+  doPlot = TRUE,
+  doVoom = FALSE,
+  normMethod = "quantile",
+  pMax = 10,
+  rowCluster = TRUE,
+  classCol = getOption("subClassCol"),
+  heatCol = NULL,
+  cexText = 1,
+  legendAdd = TRUE,
+  ...
+)
 }
 \arguments{
 \item{emat}{numeric matrix with row features and sample columns.}

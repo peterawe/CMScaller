@@ -20,7 +20,7 @@
 subVolcano <- function(deg, geneID = "rownames",
                        lfc = log2(2), padj = .05, ave=0,
                        topN = 10, cexText=1,
-                       classCol = getOption("subClassCol"),...) {
+                       classCol = getOption("subClassCol"), ...) {
 
     ddd <- list(...)
     if (!is.null(ddd$main)) main <- ddd$main else main=""
@@ -48,14 +48,14 @@ subVolcano <- function(deg, geneID = "rownames",
 
         if (length(x) < 3e3) {
             graphics::plot(x, y, xlim=xRange, col="gray", cex=.5,
-                           main=main, xlab=xlab, ylab=ylab)
+                           main=main, xlab=xlab, ylab=ylab, ...)
         } else {
             if (!packageExists("KernSmooth")) {
                 graphics::plot(x, y, xlim=xRange, col="gray", cex=.5,
-                               main=main, xlab=xlab, ylab=ylab)
+                               main=main, xlab=xlab, ylab=ylab, ...)
             } else {
                 graphics::smoothScatter(x, y, xlim=xRange, nrpoints=0,
-                                        main=main, xlab=xlab, ylab=ylab)
+                                        main=main, xlab=xlab, ylab=ylab, ...)
             }
         }
         graphics::abline(h=0, lty=1)
@@ -65,7 +65,7 @@ subVolcano <- function(deg, geneID = "rownames",
         graphics::abline(v=c(-lfc,lfc), h=hline, lty=2)
         # add features crossing threshollds
         ff <- which(abs(x) > lfc & deg$adj.P.Val < padj)
-        if (length(ff) > 1) {
+        if (length(ff) >= 1) {
             cc <- ifelse(x > 0, clCol[1], clCol[2])
             graphics::points(x[ff], y[ff], col=cc[ff], cex=.5)
 
@@ -85,7 +85,7 @@ subVolcano <- function(deg, geneID = "rownames",
 
     mtextFun <- function(...) graphics::mtext(...,side=3, cex=.67, line=0)
 
-    if(class(deg) == "list") {
+    if(class(deg)[1] == "list") {
         K <- length(deg)
         snk <- lapply(seq_len(K), function(k) {
             plotVolc(deg[[k]],

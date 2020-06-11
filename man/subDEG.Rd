@@ -4,10 +4,22 @@
 \alias{subDEG}
 \title{limma/voom differential gene expression analysis}
 \usage{
-subDEG(emat, class, batch = NULL, keepN = TRUE, doPairwise = FALSE,
-  doVoom = FALSE, normMethod = "quantile", returnTreat = FALSE,
-  lfc = log2(1.5), padj = 0.05, feat = NULL, doPlot = FALSE,
-  sortBy = "P", ...)
+subDEG(
+  emat,
+  class,
+  batch = NULL,
+  keepN = TRUE,
+  doPairwise = FALSE,
+  doVoom = FALSE,
+  normMethod = "quantile",
+  returnTreat = FALSE,
+  lfc = log2(1.5),
+  padj = 0.05,
+  feat = NULL,
+  doPlot = FALSE,
+  sortBy = "P",
+  ...
+)
 }
 \arguments{
 \item{emat}{numeric matrix with row features and sample columns. For

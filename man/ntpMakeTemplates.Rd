@@ -4,8 +4,14 @@
 \alias{ntpMakeTemplates}
 \title{nearest template prediction templates}
 \usage{
-ntpMakeTemplates(geneSets, resDEG = TRUE, lfc = 1, padj = 0.1,
-  topN = NULL, verbose = getOption("verbose", FALSE))
+ntpMakeTemplates(
+  geneSets,
+  resDEG = TRUE,
+  lfc = 1,
+  padj = 0.1,
+  topN = NULL,
+  verbose = getOption("verbose", FALSE)
+)
 }
 \arguments{
 \item{geneSets}{list of vectors with gene identifiers (coerced to

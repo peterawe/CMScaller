@@ -4,8 +4,14 @@
 \alias{fromTo}
 \title{translation between human gene identifiers}
 \usage{
-fromTo(key = NULL, id.in = NULL, id.out = "symbol",
-  verbose = getOption("verbose"), rough = FALSE, all = FALSE)
+fromTo(
+  key = NULL,
+  id.in = NULL,
+  id.out = "symbol",
+  verbose = getOption("verbose"),
+  rough = FALSE,
+  all = FALSE
+)
 }
 \arguments{
 \item{key}{a character vector, gene identifiers to be translated.}
@@ -45,7 +51,7 @@ with more than one possible match, only first match is returned (thus
 }
 \examples{
  library(Biobase)
- fromTo(rownames(crcTCGAsubset)[1:50], "ensg", "symbol")
+ fromTo(rownames(crcTCGAsubset)[1:50], "entrez", "symbol")
  # colnames indicate valid keys
  # example: AKT3 symbol has one valid Entrez mapping but two different ENSG
  anno.orgHs[anno.orgHs$symbol == "AKT3",]
